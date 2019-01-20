@@ -6,8 +6,13 @@ public class mgr : MonoBehaviour
 {
     public static int ind = -1;
     // flag
+    // 判斷你是要選棋子還是要讓棋子移動
+    // flag=true 點sprite(選棋子)
     public static bool flag = true;
-    private string[] res = { "none", //null
+
+    // model
+    // 棋子圖片陣列，使用名稱對應resources裡的檔案名稱
+    public static string[] res = { "none", //null
                              "black_jiang", //1_黑棋_將
                              "black_shr", //2_黑棋_士_左
                              "black_shr", //3_黑棋_士_右
@@ -41,6 +46,8 @@ public class mgr : MonoBehaviour
                              "red_bing", //31_紅棋_兵_4
                              "red_bing", //32_紅棋_兵_5
                            };
+
+    // 棋盤model，每個棋子都有自己的index，對應res陣列
     public static int[] arrPos = { 0,
                                    8, 6, 4, 2, 1, 3, 5, 7, 9,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -52,6 +59,13 @@ public class mgr : MonoBehaviour
                                    0, 26, 0, 0, 0, 0, 0, 26, 0,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    24, 22, 20, 18, 17, 19, 21, 23, 25};
+
+    // 紅陣營對應 res 陣列的棋子代號
+    public static int[] arrRed = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+
+    // 黑陣營對應 res 陣列的棋子代號
+    public static int[] arrBlack = { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
+
     void Start()
     {
         Debug.Log("mgr.cs");
@@ -61,7 +75,9 @@ public class mgr : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    // View 
+    // 棋子顯示的方法，每一偵檢查陣列，決定該位置要顯示什麼圖片
+    // 陣列的內容是0的時候 sprite=null 就移除棋子的圖案
     void Update()
     {
         for (int i = 1; i < arrPos.Length; i++)
@@ -79,6 +95,8 @@ public class mgr : MonoBehaviour
             }
         }
     }
+    
+    // Contorller
     static public void move(int target)
     {
         Debug.Log("mgr.cs ind:" + ind + " target:" + target);
