@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 448}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 122
+  controlID: 124
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -409,19 +409,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Script
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Script
+  - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\bravc\Desktop\resources_CC\Ref\ChineseChees
+  m_LastProjectPath: C:\Users\bravc\Desktop\ChineseChess
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d2090000
-    m_LastClickedID: 2514
+    m_SelectedIDs: 78090000
+    m_LastClickedID: 2424
     m_ExpandedIDs: 000000007809000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
