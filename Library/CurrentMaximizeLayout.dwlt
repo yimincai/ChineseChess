@@ -23,6 +23,7 @@ MonoBehaviour:
     y: 30
     width: 2498
     height: 987
+<<<<<<< HEAD
   m_MinSize: {x: 911, y: 424}
   m_MaxSize: {x: 22006, y: 10024}
   vertical: 0
@@ -31,6 +32,12 @@ MonoBehaviour:
 =======
   controlID: 125
 >>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
+=======
+  m_MinSize: {x: 917, y: 448}
+  m_MaxSize: {x: 22012, y: 10024}
+  vertical: 0
+  controlID: 1214
+>>>>>>> 2715c7d... add scenes and start button but not working.
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -132,14 +139,18 @@ MonoBehaviour:
     y: 0
     width: 1181
     height: 987
-  m_MinSize: {x: 202, y: 424}
-  m_MaxSize: {x: 4002, y: 8024}
+  m_MinSize: {x: 202, y: 448}
+  m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
+<<<<<<< HEAD
 <<<<<<< HEAD
   controlID: 22081
 =======
   controlID: 48
 >>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
+=======
+  controlID: 1135
+>>>>>>> 2715c7d... add scenes and start button but not working.
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -159,8 +170,8 @@ MonoBehaviour:
     y: 0
     width: 1181
     height: 506
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 224}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 5}
   m_Panes:
   - {fileID: 5}
@@ -198,9 +209,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.22965178, y: -0.10792464, z: 10.878906}
+    m_Target: {x: 412.16205, y: 570.5905, z: -3.625}
     speed: 2
-    m_Value: {x: 0.22965178, y: -0.10792464, z: 10.878906}
+    m_Value: {x: 412.16205, y: 570.5905, z: -3.625}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -232,9 +243,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.388222
+    m_Target: 619.89264
     speed: 2
-    m_Value: 13.388222
+    m_Value: 619.89264
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -291,8 +302,8 @@ MonoBehaviour:
     y: 0
     width: 401
     height: 987
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 224}
+  m_MaxSize: {x: 4004, y: 4024}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -329,7 +340,11 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 570}
       m_SelectedIDs: 
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: 4afbffffb0fbffffb2fbffff
+=======
+      m_ExpandedIDs: e8f1fffffef1ffff52f2fffff0f5ffffb2fbffff
+>>>>>>> 2715c7d... add scenes and start button but not working.
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -345,7 +360,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
+        m_ClientGUIView: {fileID: 7}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -429,6 +444,7 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_SelectedIDs: d2090000
     m_LastClickedID: 2514
     m_ExpandedIDs: 000000007809000000ca9a3b
@@ -437,6 +453,11 @@ MonoBehaviour:
     m_LastClickedID: 2518
     m_ExpandedIDs: 000000007c09000000ca9a3b
 >>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
+=======
+    m_SelectedIDs: 84260000
+    m_LastClickedID: 9860
+    m_ExpandedIDs: 000000002a26000000ca9a3b
+>>>>>>> 2715c7d... add scenes and start button but not working.
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -465,10 +486,14 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_ExpandedIDs: 000000007809000000ca9a3b
 =======
     m_ExpandedIDs: 000000007c090000
 >>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
+=======
+    m_ExpandedIDs: 000000002a26000000ca9a3b
+>>>>>>> 2715c7d... add scenes and start button but not working.
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -493,8 +518,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 06070000
-    m_LastClickedInstanceID: 1798
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
@@ -512,7 +537,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 9}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -542,8 +567,8 @@ MonoBehaviour:
     y: 0
     width: 558
     height: 987
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 74}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}

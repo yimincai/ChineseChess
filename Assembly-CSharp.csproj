@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\changeScene.cs" />
     <Compile Include="Assets\Script\mgr.cs" />
     <Compile Include="Assets\Script\pos.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
