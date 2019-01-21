@@ -61,6 +61,51 @@ public class pos : MonoBehaviour
     {
         if (selectedChessName.Equals("black_tzu"))
         {
+<<<<<<< HEAD
+=======
+            if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
+            {
+                Debug.Log("要移動的目標在 ind = " + ind);
+                mgr.ind = ind; // move
+            }
+            else
+            {
+                Debug.Log("target - ind == " + target + " - " + ind + " =" + (target - ind));
+                if (target - ind == 9)
+                {
+                    Debug.Log("要移動的目標在ind = " + ind);
+                    mgr.ind = ind; // move
+                }
+                else
+                {
+                    Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
+                    mgr.ind = target; // don't move
+                }
+            }
+        }
+
+        if (selectedChessName.Equals("red_bing"))
+        {
+            if (ind < 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
+            {
+                Debug.Log("要移動的目標在ind = " + ind);
+                mgr.ind = ind; // move
+            }
+            else
+            {
+                Debug.Log(" ind -target == " + target + " - " + ind + " =" + (ind - target));
+                if (ind - target == 9)
+                {
+                    Debug.Log("要移動的目標在ind = " + ind);
+                    mgr.ind = ind; // move
+                }
+                else
+                {
+                    Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
+                    mgr.ind = target; // don't move
+                }
+            }
+>>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
         }
     }
 
