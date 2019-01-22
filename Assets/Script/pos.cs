@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class pos : MonoBehaviour
 {
+    // 要移動的物件位置(在arrPos中的代號)
     public int ind;
+    // 移動的物件名稱
     public static string selectedName;
-    public static int selectedPos;
     void Start()
     {
 
@@ -27,9 +28,9 @@ public class pos : MonoBehaviour
     void OnMouseUp()
     {
 
-        selectedPos = ind;
+        // 取得物件名稱
         selectedName = SelectedChessName(ind);
-        Debug.Log("selected Name : " + selectedName);
+        //Debug.Log("selected Name : " + selectedName);
 
         //Debug.Log("pos.cs :" + ind);
         if (mgr.flag)
@@ -49,23 +50,28 @@ public class pos : MonoBehaviour
             }
             else
             {
-                GameLogic(selectedName, ind);
+                //Debug.Log("================ind 要移動的個體位置 : " + mgr.ind);
+                //Debug.Log("================mgr 要移動到的目標點 : " + ind);
+                GameLogic(selectedName, ind, mgr.ind);
                 mgr.move(ind); //target
                 Debug.Log("chess move");
+                Debug.Log("============================================");
             }
         }
 
     }
 
-    public static void GameLogic(string selectedChessName, int target)
+    // GameLogic
+    // mgr.ind --> 要移動的物件
+    // target  --> 移動的目標點
+    public static void GameLogic(string selectedChessName, int target, int ind)
     {
+        Debug.Log("執行GL前target = " + target + "ind = " + ind);
         if (selectedChessName.Equals("black_tzu"))
         {
-<<<<<<< HEAD
-=======
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
             {
-                Debug.Log("要移動的目標在 ind = " + ind);
+                Debug.Log("要移動的目標在ind = " + ind);
                 mgr.ind = ind; // move
             }
             else
@@ -105,10 +111,10 @@ public class pos : MonoBehaviour
                     mgr.ind = target; // don't move
                 }
             }
->>>>>>> 82fcdee... add Game Logic of red_bing and black_tzu.
         }
     }
 
+    // 回傳點選的棋子名稱
     public static string SelectedChessName(int index)
     {
         int boardPosNum = mgr.arrPos[index];
