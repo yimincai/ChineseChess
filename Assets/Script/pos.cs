@@ -67,7 +67,7 @@ public class pos : MonoBehaviour
     public static void GameLogic(string selectedChessName, int target, int ind)
     {
         Debug.Log("執行GL前target = " + target + "ind = " + ind);
-        if (selectedChessName.Equals("black_tzu"))
+        if (selectedChessName.Contains("black_tzu"))
         {
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
             {
@@ -90,7 +90,7 @@ public class pos : MonoBehaviour
             }
         }
 
-        if (selectedChessName.Equals("red_bing"))
+        if (selectedChessName.Contains("red_bing"))
         {
             if (ind < 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
