@@ -112,6 +112,24 @@ public class pos : MonoBehaviour
                 }
             }
         }
+
+        //先做十字移動，之後再考慮碰撞吃子
+        if (selectedChessName.Contains("black_pau"))
+        {
+            if ((target - ind) % 9 == 0 || ((1 - (ind % 9)) + ind) <= target && target <= ((9 - (ind % 9)) + ind))
+            {
+                mgr.ind = ind; // move
+            }
+            else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
+            {
+                mgr.ind = ind; // move
+            }
+            else
+            {
+                mgr.ind = target;
+                // don't move
+            }
+        }
     }
 
     // 回傳點選的棋子名稱
