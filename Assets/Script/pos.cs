@@ -93,7 +93,7 @@ public class pos : MonoBehaviour
 
         if (selectedChessName.Contains("red_bing"))
         {
-            if (ind < 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
+            if (ind <= 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
                 Debug.Log("要移動的目標在ind = " + ind);
                 mgr.ind = ind; // move
