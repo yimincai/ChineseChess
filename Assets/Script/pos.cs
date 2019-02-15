@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class pos : MonoBehaviour
@@ -152,6 +153,30 @@ public class pos : MonoBehaviour
                 mgr.ind = target;
                 // don't move
             }
+        }
+
+        if (selectedChessName.Contains("shuo"))
+        {
+            int[] shuo_array = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
+            var gap = Math.Abs(target - ind);
+
+            Boolean movable = shuo_array.Contains(target) && shuo_array.Contains(ind);
+            if (movable && (gap == 9 || gap == 1))
+                mgr.ind = ind; // move
+            else
+                mgr.ind = target; // dont move
+        }
+
+        if (selectedChessName.Contains("jiang"))
+        {
+            int[] jiang_array = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
+            var gap = Math.Abs(target - ind);
+
+            Boolean movable = jiang_array.Contains(target) && jiang_array.Contains(ind);
+            if (movable && (gap == 9 || gap == 1))
+                mgr.ind = ind; // move
+            else
+                mgr.ind = target; // dont move
         }
     }
 
