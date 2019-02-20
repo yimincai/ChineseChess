@@ -99,7 +99,7 @@ public class mgr : MonoBehaviour
     // Contorller
     static public void move(int target)
     {
-        Debug.Log("mgr.cs ind:" + ind + " target:" + target);
+        //Debug.Log("mgr.cs ind:" + ind + " target:" + target);
         arrPos[target] = arrPos[ind];
         arrPos[ind] = 0;
         flag = true;

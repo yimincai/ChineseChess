@@ -47,7 +47,6 @@ public class pos : MonoBehaviour
             if (mgr.arrPos[ind] > 0)
             {
                 mgr.ind = ind;
-                Debug.Log("chess dont move");
             }
             else
             {
@@ -55,10 +54,10 @@ public class pos : MonoBehaviour
                 //Debug.Log("================mgr 要移動到的目標點 : " + ind);
                 GameLogic(selectedName, ind, mgr.ind);
                 mgr.move(ind); //target
-                Debug.Log("chess move");
-                Debug.Log("============================================");
             }
         }
+
+        Debug.Log("=============================================");
 
     }
 
@@ -67,25 +66,25 @@ public class pos : MonoBehaviour
     // target  --> 移動的目標點
     public static void GameLogic(string selectedChessName, int target, int ind)
     {
-        Debug.Log("執行GL前target = " + target + "ind = " + ind);
+        Debug.Log("target = " + target + ", ind = " + ind);
         if (selectedChessName.Contains("black_tzu"))
         {
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
             {
-                Debug.Log("要移動的目標在ind = " + ind);
+                //Debug.Log("要移動的目標在ind = " + ind);
                 mgr.ind = ind; // move
             }
             else
             {
-                Debug.Log("target - ind == " + target + " - " + ind + " =" + (target - ind));
+                //Debug.Log("target - ind == " + target + " - " + ind + " =" + (target - ind));
                 if (target - ind == 9)
                 {
-                    Debug.Log("要移動的目標在ind = " + ind);
+                    //Debug.Log("要移動的目標在ind = " + ind);
                     mgr.ind = ind; // move
                 }
                 else
                 {
-                    Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
+                    //Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
                     mgr.ind = target; // don't move
                 }
             }
@@ -95,20 +94,20 @@ public class pos : MonoBehaviour
         {
             if (ind <= 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
-                Debug.Log("要移動的目標在ind = " + ind);
+                //Debug.Log("要移動的目標在ind = " + ind);
                 mgr.ind = ind; // move
             }
             else
             {
-                Debug.Log(" ind -target == " + target + " - " + ind + " =" + (ind - target));
+                //Debug.Log(" ind -target == " + target + " - " + ind + " =" + (ind - target));
                 if (ind - target == 9)
                 {
-                    Debug.Log("要移動的目標在ind = " + ind);
+                    //Debug.Log("要移動的目標在ind = " + ind);
                     mgr.ind = ind; // move
                 }
                 else
                 {
-                    Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
+                    //Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
                     mgr.ind = target; // don't move
                 }
             }
@@ -178,8 +177,42 @@ public class pos : MonoBehaviour
             else
                 mgr.ind = target; // dont move
         }
-    }
 
+        if (selectedChessName.Contains("ma"))
+        {
+            var gap = target - ind;
+            //Debug.Log("@tag - ind = " + gap);
+
+            if (((gap == 17 || gap == 19)) && (mgr.arrPos[ind + 9] == 0))
+            {
+                Debug.Log("@arrPos + 9 = " + mgr.arrPos[ind + 9]);
+                mgr.ind = ind; // move
+
+            }
+            else if (((gap == -17) || (gap == -19)) && (mgr.arrPos[ind - 9] == 0))
+            {
+                Debug.Log("@arrPos - 9 = " + mgr.arrPos[ind - 9]);
+                mgr.ind = ind; // move
+
+            }
+            else if (((gap == -7) || (gap == 11)) && (mgr.arrPos[ind + 1] == 0))
+            {
+                Debug.Log("@arrPos - 1 = " + mgr.arrPos[ind + 1]);
+                mgr.ind = ind; // move
+
+            }
+            else if (((gap == 7) || (gap == -11)) && (mgr.arrPos[ind - 1] == 0))
+            {
+                Debug.Log("@arrPos + 1 = " + mgr.arrPos[ind - 1]);
+                mgr.ind = ind; // move
+
+            }
+            else
+            {
+                mgr.ind = target; // dont move
+            }
+        }
+    }
     // 回傳點選的棋子名稱
     public static string SelectedChessName(int index)
     {
