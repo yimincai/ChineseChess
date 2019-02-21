@@ -48,7 +48,7 @@ public class mgr : MonoBehaviour
                            };
 
     // 棋盤model，每個棋子都有自己的index，對應res陣列
-    public static int[] arrPos = { 0,
+    public static int[] arrPos1 = { 0,
                                    8, 6, 4, 2, 1, 3, 5, 7, 9,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    0, 10, 0, 0, 0, 0, 0, 11, 0,
@@ -59,6 +59,18 @@ public class mgr : MonoBehaviour
                                    0, 26, 0, 0, 0, 0, 0, 27, 0,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    24, 22, 20, 18, 17, 19, 21, 23, 25};
+
+    public static int[] arrPos = { 0,
+                                   25, 23, 21, 19, 17, 18, 20, 22, 24,
+                                   0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 27, 0, 0, 0, 0, 0, 26, 0,
+                                   32, 0, 31, 0, 30, 0, 29, 0,
+                                   28, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 16, 0, 15, 0, 14, 0, 13, 0,
+                                   12, 0, 11, 0, 0, 0, 0, 0, 10,
+                                   0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 9, 7, 5, 3, 1, 2, 4, 6, 8 };
 
     // 紅陣營對應 res 陣列的棋子代號
     public static int[] arrRed = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
@@ -95,7 +107,7 @@ public class mgr : MonoBehaviour
             }
         }
     }
-    
+
     // Contorller
     static public void move(int target)
     {

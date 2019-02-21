@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -67,7 +65,7 @@ public class pos : MonoBehaviour
     public static void GameLogic(string selectedChessName, int target, int ind)
     {
         Debug.Log("target = " + target + ", ind = " + ind);
-        if (selectedChessName.Contains("black_tzu"))
+        if (selectedChessName.Contains("bing"))
         {
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
             {
@@ -90,7 +88,7 @@ public class pos : MonoBehaviour
             }
         }
 
-        if (selectedChessName.Contains("red_bing"))
+        if (selectedChessName.Contains("tzu"))
         {
             if (ind <= 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
@@ -114,7 +112,7 @@ public class pos : MonoBehaviour
         }
 
         //先做十字移動，之後再考慮碰撞吃子
-        if (selectedChessName.Contains("black_pau"))
+        if (selectedChessName.Contains("pau"))
         {
             bool indLeftRowEdge = ((1 - (ind % 9)) + ind) <= target;
             bool indRightRowEdge = target <= ((9 - (ind % 9)) + ind);
@@ -134,7 +132,9 @@ public class pos : MonoBehaviour
             }
         }
 
-        if (selectedChessName.Contains("red_pau"))
+        //先做十字移動，之後再考慮碰撞吃子
+        //TODO: 若有障礙物，要擋住。
+        if (selectedChessName.Contains("che"))
         {
             bool indLeftRowEdge = ((1 - (ind % 9)) + ind) <= target;
             bool indRightRowEdge = target <= ((9 - (ind % 9)) + ind);
@@ -154,24 +154,24 @@ public class pos : MonoBehaviour
             }
         }
 
-        if (selectedChessName.Contains("shuo"))
+        if (selectedChessName.Contains("jiang"))
         {
-            int[] shuo_array = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
+            int[] jiangArray = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
             var gap = Math.Abs(target - ind);
 
-            Boolean movable = shuo_array.Contains(target) && shuo_array.Contains(ind);
+            bool movable = jiangArray.Contains(target) && jiangArray.Contains(ind);
             if (movable && (gap == 9 || gap == 1))
                 mgr.ind = ind; // move
             else
                 mgr.ind = target; // dont move
         }
 
-        if (selectedChessName.Contains("jiang"))
+        if (selectedChessName.Contains("shuo"))
         {
-            int[] jiang_array = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
+            int[] shuoArray = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
             var gap = Math.Abs(target - ind);
 
-            Boolean movable = jiang_array.Contains(target) && jiang_array.Contains(ind);
+            bool movable = shuoArray.Contains(target) && shuoArray.Contains(ind);
             if (movable && (gap == 9 || gap == 1))
                 mgr.ind = ind; // move
             else
@@ -185,34 +185,49 @@ public class pos : MonoBehaviour
 
             if (((gap == 17 || gap == 19)) && (mgr.arrPos[ind + 9] == 0))
             {
-                Debug.Log("@arrPos + 9 = " + mgr.arrPos[ind + 9]);
                 mgr.ind = ind; // move
-
             }
             else if (((gap == -17) || (gap == -19)) && (mgr.arrPos[ind - 9] == 0))
             {
-                Debug.Log("@arrPos - 9 = " + mgr.arrPos[ind - 9]);
                 mgr.ind = ind; // move
-
             }
             else if (((gap == -7) || (gap == 11)) && (mgr.arrPos[ind + 1] == 0))
             {
-                Debug.Log("@arrPos - 1 = " + mgr.arrPos[ind + 1]);
                 mgr.ind = ind; // move
-
             }
             else if (((gap == 7) || (gap == -11)) && (mgr.arrPos[ind - 1] == 0))
             {
-                Debug.Log("@arrPos + 1 = " + mgr.arrPos[ind - 1]);
                 mgr.ind = ind; // move
-
             }
             else
             {
                 mgr.ind = target; // dont move
             }
         }
+
+        if (selectedChessName.Contains("shr"))
+        {
+            var gap = Math.Abs(target - ind);
+            int[] redShrArray = { 4, 6, 14, 22, 24 };
+            int[] blackShrArray = { 67, 69, 77, 85, 87 };
+            bool movable = false;
+
+            if (selectedChessName.Contains("red"))
+            {
+                movable = redShrArray.Contains(target) && redShrArray.Contains(ind);
+            }
+            else
+            {
+                movable = blackShrArray.Contains(target) && blackShrArray.Contains(ind);
+            }
+
+            if (movable && (gap == 10 || gap == 8))
+                mgr.ind = ind; // move
+            else
+                mgr.ind = target; // dont move
+        }
     }
+
     // 回傳點選的棋子名稱
     public static string SelectedChessName(int index)
     {
@@ -226,4 +241,3 @@ public class pos : MonoBehaviour
         return chessName;
     }
 }
-
