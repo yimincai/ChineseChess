@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\Script\mgr.cs" />
     <Compile Include="Assets\Script\pos.cs" />
-    <Compile Include="Assets\Script\TestMethodAttribute.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/bravc/Desktop/ChineseChess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

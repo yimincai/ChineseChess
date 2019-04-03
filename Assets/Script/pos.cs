@@ -46,7 +46,7 @@ public class pos : MonoBehaviour
             {
                 mgr.ind = ind;
             }
-            else
+            else // move
             {
                 //Debug.Log("================ind 要移動的個體位置 : " + mgr.ind);
                 //Debug.Log("================mgr 要移動到的目標點 : " + ind);
@@ -136,16 +136,65 @@ public class pos : MonoBehaviour
         //TODO: 若有障礙物，要擋住。
         if (selectedChessName.Contains("che"))
         {
+            bool movable = false;
+            int gap = target - ind;
+            int flag = 0;
+            if (gap > 9 && gap % 9 == 0) // 向上移動
+            {   
+                for (int i = ind + 9; i < target; i = i + 9)
+                {
+                    if (mgr.arrPos[i] != 0)
+                    {
+                        flag++;
+                    }
+                }
+            }
+            /* else if(gap < 9 && gap % 9 == 0) //往下移動
+             {
+                 for (int i = ind; i < target; i = i + 9)
+                 {
+                     if (mgr.arrPos[i] != 0)
+                     {
+                         flag++;
+                     }
+                 }
+             }*/
+
+            /*if (gap > 9 && gap % 9 == 0) // 向左移動
+            {
+                for (int i = ind + 9; i < target; i = i + 9)
+                {
+                    if (mgr.arrPos[i] != 0)
+                    {
+                        flag++;
+                    }
+                }
+            }
+            */
+
+            if (flag > 0)
+                movable = false;
+            else
+                movable = true;
+
             bool indLeftRowEdge = ((1 - (ind % 9)) + ind) <= target;
             bool indRightRowEdge = target <= ((9 - (ind % 9)) + ind);
 
-            if ((target - ind) % 9 == 0 || indLeftRowEdge && indRightRowEdge)
+            if (movable)
             {
-                mgr.ind = ind; // move
-            }
-            else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
-            {
-                mgr.ind = ind; // move
+                if ((target - ind) % 9 == 0 || indLeftRowEdge && indRightRowEdge)
+                {
+                    mgr.ind = ind; // move
+                }
+                else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
+                {
+                    mgr.ind = ind; // move
+                }
+                else
+                {
+                    mgr.ind = target;
+                    // don't move
+                }
             }
             else
             {
@@ -154,34 +203,9 @@ public class pos : MonoBehaviour
             }
         }
 
-        if (selectedChessName.Contains("jiang"))
-        {
-            int[] jiangArray = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
-            var gap = Math.Abs(target - ind);
-
-            bool movable = jiangArray.Contains(target) && jiangArray.Contains(ind);
-            if (movable && (gap == 9 || gap == 1))
-                mgr.ind = ind; // move
-            else
-                mgr.ind = target; // dont move
-        }
-
-        if (selectedChessName.Contains("shuo"))
-        {
-            int[] shuoArray = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
-            var gap = Math.Abs(target - ind);
-
-            bool movable = shuoArray.Contains(target) && shuoArray.Contains(ind);
-            if (movable && (gap == 9 || gap == 1))
-                mgr.ind = ind; // move
-            else
-                mgr.ind = target; // dont move
-        }
-
         if (selectedChessName.Contains("ma"))
         {
             var gap = target - ind;
-            //Debug.Log("@tag - ind = " + gap);
 
             if (((gap == 17 || gap == 19)) && (mgr.arrPos[ind + 9] == 0))
             {
@@ -198,6 +222,61 @@ public class pos : MonoBehaviour
             else if (((gap == 7) || (gap == -11)) && (mgr.arrPos[ind - 1] == 0))
             {
                 mgr.ind = ind; // move
+            }
+            else
+            {
+                mgr.ind = target; // dont move
+            }
+        }
+
+        if (selectedChessName.Contains("shiang"))
+        {
+            var gap = target - ind;
+            if ((target < 45) && selectedChessName.Contains("red"))
+            {
+                if ((gap == 20) && (mgr.arrPos[ind + 10] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == 16) && (mgr.arrPos[ind + 8] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == -20) && (mgr.arrPos[ind - 10] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == -16) && (mgr.arrPos[ind - 8] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else
+                {
+                    mgr.ind = target; // dont move
+                }
+            }
+            else if ((target > 45) && selectedChessName.Contains("black"))
+            {
+                if ((gap == 20) && (mgr.arrPos[ind + 10] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == 16) && (mgr.arrPos[ind + 8] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == -20) && (mgr.arrPos[ind - 10] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else if ((gap == -16) && (mgr.arrPos[ind - 8] == 0))
+                {
+                    mgr.ind = ind; // move
+                }
+                else
+                {
+                    mgr.ind = target; // dont move
+                }
             }
             else
             {
@@ -222,6 +301,30 @@ public class pos : MonoBehaviour
             }
 
             if (movable && (gap == 10 || gap == 8))
+                mgr.ind = ind; // move
+            else
+                mgr.ind = target; // dont move
+        }
+
+        if (selectedChessName.Contains("jiang"))
+        {
+            int[] jiangArray = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
+            var gap = Math.Abs(target - ind);
+
+            bool movable = jiangArray.Contains(target) && jiangArray.Contains(ind);
+            if (movable && (gap == 9 || gap == 1))
+                mgr.ind = ind; // move
+            else
+                mgr.ind = target; // dont move
+        }
+
+        if (selectedChessName.Contains("shuo"))
+        {
+            int[] shuoArray = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
+            var gap = Math.Abs(target - ind);
+
+            bool movable = shuoArray.Contains(target) && shuoArray.Contains(ind);
+            if (movable && (gap == 9 || gap == 1))
                 mgr.ind = ind; // move
             else
                 mgr.ind = target; // dont move
