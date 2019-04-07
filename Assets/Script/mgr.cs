@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class mgr : MonoBehaviour
 {
-    public static int ind = -1;
+    public static int _ind = -1;
     // flag
     // 判斷你是要選棋子還是要讓棋子移動
     // flag=true 點sprite(選棋子)
-    public static bool flag = true;
+    public static bool _flag = true;
 
     // model
     // 棋子圖片陣列，使用名稱對應resources裡的檔案名稱
-    public static string[] res = { "none", //null
+    public static string[] _res = { "none", //null
                              "black_jiang", //1_黑棋_將
                              "black_shr_1", //2_黑棋_士_左
                              "black_shr_2", //3_黑棋_士_右
@@ -48,7 +48,7 @@ public class mgr : MonoBehaviour
                            };
 
     // 棋盤model，每個棋子都有自己的index，對應res陣列
-    public static int[] arrPos = { 0,
+    public static int[] _arrPos = { 0,
                                    25, 23, 21, 19, 17, 18, 20, 22, 24,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    0, 27, 0, 0, 0, 0, 0, 26, 0,
@@ -59,12 +59,6 @@ public class mgr : MonoBehaviour
                                    12, 0, 11, 0, 0, 0, 0, 0, 10,
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    0, 9, 7, 5, 3, 1, 2, 4, 6, 8 };
-
-    // 紅陣營對應 res 陣列的棋子代號
-    public static int[] arrRed = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-
-    // 黑陣營對應 res 陣列的棋子代號
-    public static int[] arrBlack = { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
 
     void Start()
     {
@@ -80,29 +74,29 @@ public class mgr : MonoBehaviour
     // 陣列的內容是0的時候 sprite=null 就移除棋子的圖案
     void Update()
     {
-        for (int i = 1; i < arrPos.Length; i++)
+        for (int i = 1; i < _arrPos.Length; i++)
         {
             GameObject gameObject = GameObject.Find(i + "");
             SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
-            if (arrPos[i] == 0)
+            if (_arrPos[i] == 0)
             {
                 spr.sprite = null;
             }
             else
             {
-                Sprite[] playerSprite = Resources.LoadAll<Sprite>(res[arrPos[i]]);
+                Sprite[] playerSprite = Resources.LoadAll<Sprite>(_res[_arrPos[i]]);
                 spr.sprite = playerSprite[0];
             }
         }
     }
 
     // Contorller
-    static public void move(int target)
+    public static void move(int target)
     {
         //Debug.Log("mgr.cs ind:" + ind + " target:" + target);
-        arrPos[target] = arrPos[ind];
-        arrPos[ind] = 0;
-        flag = true;
+        _arrPos[target] = _arrPos[_ind];
+        _arrPos[_ind] = 0;
+        _flag = true;
         if (pos._teamFlag == false)
         {
             pos._teamFlag = true;

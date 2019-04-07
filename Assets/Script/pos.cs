@@ -37,27 +37,27 @@ public class pos : MonoBehaviour
         // Debug.Log("selected Name : " + selectedName);
 
         // Debug.Log("pos.cs :" + ind);
-        if (mgr.flag)
+        if (mgr._flag)
         {
-            if (mgr.arrPos[ind] > 0)
+            if (mgr._arrPos[ind] > 0)
             {
-                mgr.ind = ind;
-                mgr.flag = false;
+                mgr._ind = ind;
+                mgr._flag = false;
             }
         }
         else
         {
-            if (mgr.arrPos[ind] > 0)
+            if (mgr._arrPos[ind] > 0)
             {
-                mgr.ind = ind;
+                mgr._ind = ind;
             }
             else // move
             {
                 if(SwitchGamer(_selectedName, _teamFlag) == true)
                 {
-                    GameLogic(_selectedName, ind, mgr.ind);
+                    GameLogic(_selectedName, ind, mgr._ind);
 
-                    if(mgr.ind != ind)
+                    if(mgr._ind != ind)
                     {
                         mgr.move(ind); //target 
                     }
@@ -72,7 +72,7 @@ public class pos : MonoBehaviour
     // GameLogic
     // mgr.ind --> 要移動的物件
     // target  --> 移動的目標點
-    public static void GameLogic(string selectedChessName, int target, int ind)
+    private static void GameLogic(string selectedChessName, int target, int ind)
     {
         // Debug.Log("target = " + target + ", ind = " + ind);
         if (selectedChessName.Contains("bing"))
@@ -80,7 +80,7 @@ public class pos : MonoBehaviour
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
             {
                 //Debug.Log("要移動的目標在ind = " + ind);
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
             else
             {
@@ -88,12 +88,12 @@ public class pos : MonoBehaviour
                 if (target - ind == 9)
                 {
                     //Debug.Log("要移動的目標在ind = " + ind);
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else
                 {
                     //Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
-                    mgr.ind = target; // don't move
+                    mgr._ind = target; // don't move
                 }
             }
         }
@@ -103,7 +103,7 @@ public class pos : MonoBehaviour
             if (ind <= 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
                 //Debug.Log("要移動的目標在ind = " + ind);
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
             else
             {
@@ -111,12 +111,12 @@ public class pos : MonoBehaviour
                 if (ind - target == 9)
                 {
                     //Debug.Log("要移動的目標在ind = " + ind);
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else
                 {
                     //Debug.Log("留在原點則設定 target = ind 讓它認為那個點有棋子不能移動 target = " + target);
-                    mgr.ind = target; // don't move
+                    mgr._ind = target; // don't move
                 }
             }
         }
@@ -129,15 +129,15 @@ public class pos : MonoBehaviour
 
             if ((target - ind) % 9 == 0 || indLeftRowEdge && indRightRowEdge)
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
             else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
             else
             {
-                mgr.ind = target;
+                mgr._ind = target;
                 // don't move
             }
         }
@@ -153,7 +153,7 @@ public class pos : MonoBehaviour
             {
                 for (int i = ind + 9; i < target; i = i + 9)
                 {
-                    if (mgr.arrPos[i] != 0)
+                    if (mgr._arrPos[i] != 0)
                     {
                         flag++;
                     }
@@ -194,21 +194,21 @@ public class pos : MonoBehaviour
             {
                 if ((target - ind) % 9 == 0 || indLeftRowEdge && indRightRowEdge)
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else
                 {
-                    mgr.ind = target;
+                    mgr._ind = target;
                     // don't move
                 }
             }
             else
             {
-                mgr.ind = target;
+                mgr._ind = target;
                 // don't move
             }
         }
@@ -217,25 +217,25 @@ public class pos : MonoBehaviour
         {
             var gap = target - ind;
 
-            if (((gap == 17 || gap == 19)) && (mgr.arrPos[ind + 9] == 0))
+            if (((gap == 17 || gap == 19)) && (mgr._arrPos[ind + 9] == 0))
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
-            else if (((gap == -17) || (gap == -19)) && (mgr.arrPos[ind - 9] == 0))
+            else if (((gap == -17) || (gap == -19)) && (mgr._arrPos[ind - 9] == 0))
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
-            else if (((gap == -7) || (gap == 11)) && (mgr.arrPos[ind + 1] == 0))
+            else if (((gap == -7) || (gap == 11)) && (mgr._arrPos[ind + 1] == 0))
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
-            else if (((gap == 7) || (gap == -11)) && (mgr.arrPos[ind - 1] == 0))
+            else if (((gap == 7) || (gap == -11)) && (mgr._arrPos[ind - 1] == 0))
             {
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             }
             else
             {
-                mgr.ind = target; // dont move
+                mgr._ind = target; // dont move
             }
         }
 
@@ -244,53 +244,53 @@ public class pos : MonoBehaviour
             var gap = target - ind;
             if ((target < 45) && selectedChessName.Contains("red"))
             {
-                if ((gap == 20) && (mgr.arrPos[ind + 10] == 0))
+                if ((gap == 20) && (mgr._arrPos[ind + 10] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == 16) && (mgr.arrPos[ind + 8] == 0))
+                else if ((gap == 16) && (mgr._arrPos[ind + 8] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == -20) && (mgr.arrPos[ind - 10] == 0))
+                else if ((gap == -20) && (mgr._arrPos[ind - 10] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == -16) && (mgr.arrPos[ind - 8] == 0))
+                else if ((gap == -16) && (mgr._arrPos[ind - 8] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else
                 {
-                    mgr.ind = target; // dont move
+                    mgr._ind = target; // dont move
                 }
             }
             else if ((target > 45) && selectedChessName.Contains("black"))
             {
-                if ((gap == 20) && (mgr.arrPos[ind + 10] == 0))
+                if ((gap == 20) && (mgr._arrPos[ind + 10] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == 16) && (mgr.arrPos[ind + 8] == 0))
+                else if ((gap == 16) && (mgr._arrPos[ind + 8] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == -20) && (mgr.arrPos[ind - 10] == 0))
+                else if ((gap == -20) && (mgr._arrPos[ind - 10] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
-                else if ((gap == -16) && (mgr.arrPos[ind - 8] == 0))
+                else if ((gap == -16) && (mgr._arrPos[ind - 8] == 0))
                 {
-                    mgr.ind = ind; // move
+                    mgr._ind = ind; // move
                 }
                 else
                 {
-                    mgr.ind = target; // dont move
+                    mgr._ind = target; // dont move
                 }
             }
             else
             {
-                mgr.ind = target; // dont move
+                mgr._ind = target; // dont move
             }
         }
 
@@ -311,9 +311,9 @@ public class pos : MonoBehaviour
             }
 
             if (movable && (gap == 10 || gap == 8))
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             else
-                mgr.ind = target; // dont move
+                mgr._ind = target; // dont move
         }
 
         if (selectedChessName.Contains("jiang"))
@@ -323,9 +323,9 @@ public class pos : MonoBehaviour
 
             bool movable = jiangArray.Contains(target) && jiangArray.Contains(ind);
             if (movable && (gap == 9 || gap == 1))
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             else
-                mgr.ind = target; // dont move
+                mgr._ind = target; // dont move
         }
 
         if (selectedChessName.Contains("shuo"))
@@ -335,26 +335,26 @@ public class pos : MonoBehaviour
 
             bool movable = shuoArray.Contains(target) && shuoArray.Contains(ind);
             if (movable && (gap == 9 || gap == 1))
-                mgr.ind = ind; // move
+                mgr._ind = ind; // move
             else
-                mgr.ind = target; // dont move
+                mgr._ind = target; // dont move
         }
     }
 
     // 回傳點選的棋子名稱
-    public static string SelectedChessName(int index)
+    private static string SelectedChessName(int index)
     {
-        int boardPosNum = mgr.arrPos[index];
+        int boardPosNum = mgr._arrPos[index];
 
         if (boardPosNum == 0)
         {
             return _selectedName;
         }
-        String chessName = mgr.res[boardPosNum];
+        String chessName = mgr._res[boardPosNum];
         return chessName;
     }
 
-    public static bool SwitchGamer(string selectedName, bool teamFlagk)
+    private static bool SwitchGamer(string selectedName, bool teamFlagk)
     {
         if ((_selectedName.Contains("red") && _teamFlag == false) || (_selectedName.Contains("black") && _teamFlag == true))
         {
