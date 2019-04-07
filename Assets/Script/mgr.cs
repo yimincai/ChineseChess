@@ -68,8 +68,8 @@ public class mgr : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("mgr.cs");
-        Debug.Log("==========");
+        //Debug.Log("mgr.cs");
+        //Debug.Log("==========");
         //GameObject.Instantiate(checkerboard);
 
 
@@ -103,5 +103,13 @@ public class mgr : MonoBehaviour
         arrPos[target] = arrPos[ind];
         arrPos[ind] = 0;
         flag = true;
+        if (pos._teamFlag == false)
+        {
+            pos._teamFlag = true;
+        }
+        else
+        {
+            pos._teamFlag = false;
+        }
     }
 }

@@ -6,8 +6,13 @@ public class pos : MonoBehaviour
 {
     // 要移動的物件位置(在arrPos中的代號)
     public int ind;
+
     // 移動的物件名稱
-    public static string selectedName;
+    public static string _selectedName;
+
+    // red team first, false means red turn.
+    public static bool _teamFlag = false;
+
     void Start()
     {
 
@@ -28,10 +33,10 @@ public class pos : MonoBehaviour
     {
 
         // 取得物件名稱
-        selectedName = SelectedChessName(ind);
-        //Debug.Log("selected Name : " + selectedName);
+        _selectedName = SelectedChessName(ind);
+        // Debug.Log("selected Name : " + selectedName);
 
-        //Debug.Log("pos.cs :" + ind);
+        // Debug.Log("pos.cs :" + ind);
         if (mgr.flag)
         {
             if (mgr.arrPos[ind] > 0)
@@ -48,10 +53,15 @@ public class pos : MonoBehaviour
             }
             else // move
             {
-                //Debug.Log("================ind 要移動的個體位置 : " + mgr.ind);
-                //Debug.Log("================mgr 要移動到的目標點 : " + ind);
-                GameLogic(selectedName, ind, mgr.ind);
-                mgr.move(ind); //target
+                if(SwitchGamer(_selectedName, _teamFlag) == true)
+                {
+                    GameLogic(_selectedName, ind, mgr.ind);
+
+                    if(mgr.ind != ind)
+                    {
+                        mgr.move(ind); //target 
+                    }
+                }
             }
         }
 
@@ -64,7 +74,7 @@ public class pos : MonoBehaviour
     // target  --> 移動的目標點
     public static void GameLogic(string selectedChessName, int target, int ind)
     {
-        Debug.Log("target = " + target + ", ind = " + ind);
+        // Debug.Log("target = " + target + ", ind = " + ind);
         if (selectedChessName.Contains("bing"))
         {
             if (ind > 45 && Math.Abs(target - ind) == 1 || target - ind == 9)
@@ -140,7 +150,7 @@ public class pos : MonoBehaviour
             int gap = target - ind;
             int flag = 0;
             if (gap > 9 && gap % 9 == 0) // 向上移動
-            {   
+            {
                 for (int i = ind + 9; i < target; i = i + 9)
                 {
                     if (mgr.arrPos[i] != 0)
@@ -338,9 +348,40 @@ public class pos : MonoBehaviour
 
         if (boardPosNum == 0)
         {
-            return selectedName;
+            return _selectedName;
         }
         String chessName = mgr.res[boardPosNum];
         return chessName;
     }
+
+    public static bool SwitchGamer(string selectedName, bool teamFlagk)
+    {
+        if ((_selectedName.Contains("red") && _teamFlag == false) || (_selectedName.Contains("black") && _teamFlag == true))
+        {
+            if (_teamFlag == false)
+            {
+                Debug.Log("Change to black turn");
+                return true;
+            }
+            else if (_teamFlag == true)
+            {
+                Debug.Log("Change to red turn");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
+
+
+
+
+
+
