@@ -97,13 +97,5 @@ public class mgr : MonoBehaviour
         _arrPos[target] = _arrPos[_ind];
         _arrPos[_ind] = 0;
         _flag = true;
-        if (pos._teamFlag == false)
-        {
-            pos._teamFlag = true;
-        }
-        else
-        {
-            pos._teamFlag = false;
-        }
     }
 }

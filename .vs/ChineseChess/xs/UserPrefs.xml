@@ -1,15 +1,9 @@
 ﻿<Properties StartupConfiguration="{196ED32F-0BAF-F1DA-3AC7-55B097E5B528}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/pos.cs">
     <Files>
-      <File FileName="Assets/Script/pos.cs" Line="431" Column="6" NotebookId="1" />
+      <File FileName="Assets/Script/pos.cs" Line="659" Column="131" />
+      <File FileName="Assets/Script/mgr.cs" Line="56" Column="63" />
     </Files>
-    <FloatingWindows>
-      <FloatingWindow WindowId="1" X="0" Y="0" Width="1440" Height="900">
-        <Files>
-          <File FileName="Assets/Script/mgr.cs" Line="16" Column="53" />
-        </Files>
-      </FloatingWindow>
-    </FloatingWindows>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
