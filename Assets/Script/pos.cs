@@ -16,8 +16,6 @@ public class pos : MonoBehaviour
     // red team first, false means red turn.
     public static bool _teamFlag = false;
 
-    // fu
-
     void Start()
     {
 
@@ -164,51 +162,14 @@ public class pos : MonoBehaviour
             int indLeftRowEdge;
             int indRightRowEdge;
 
-            // fix chess pos 在右邊界的bugs
-            if (ind % 9 == 0)
-            {
-                indLeftRowEdge = (((1 - (ind % 9)) + ind) - 9);
-                indRightRowEdge = ind;
-                //Debug.Log("indL: " + (((1 - (ind % 9)) + ind) - 9));
-                //Debug.Log("indR: " + ind);
-            }
-            else
-            {
-                indLeftRowEdge = ((1 - (ind % 9)) + ind);
-                indRightRowEdge = ((9 - (ind % 9)) + ind);
-                //Debug.Log("indL: " + ((1 - (ind % 9)) + ind));
-                //Debug.Log("indR: " + ((9 - (ind % 9)) + ind));
-            }
-
-            bool targetSmallerThenindLeftRowEdge = indLeftRowEdge <= target;
-            bool targetBiggerThenindRightRowEdge = indRightRowEdge >= target;
-
-
-            if ((target - ind) % 9 == 0 || (targetSmallerThenindLeftRowEdge && targetBiggerThenindRightRowEdge))
-            {
-                mgr._ind = ind; // move
-                return true;
-            }
-            else
-            {
-                mgr._ind = target;
-                return false;
-                // don't move
-            }
-        }
-
-        //先做十字移動，之後再考慮碰撞吃子
-        //TODO: 若有障礙物，要擋住。
-        if (selectedChessName.Contains("che"))
-        {
-            int indLeftRowEdge;
-            int indRightRowEdge;
-
             int blockFlag = 0;
-            int upBlockPos = 0;
-            int downBlockPos = 0;
-            int rightBlockPos = 0;
-            int leftBlockPos = 0;
+
+            int[] upBlockPos = new int[100];
+            int[] downBlockPos = new int[100];
+            int[] rightBlockPos = new int[100];
+            int[] leftBlockPos = new int[100];
+
+            string[] arr = new string[5];
 
             // fix chess pos 在右邊界的bugs
             if (ind % 9 == 0)
@@ -227,82 +188,86 @@ public class pos : MonoBehaviour
             // 目標點小於右邊界
             bool targetSmallerThenIndRightRowEdge = indRightRowEdge >= target;
 
-            // 計算往上走的第一個阻擋棋子
+            // 計算往上走的阻擋棋子
             for (int i = ind + 9; i <= 90; i = i + 9)
             {
                 if (mgr._arrPos[i] != 0)
                 {
                     blockFlag++;
-                    //Debug.Log("upBlockPos = " + i + 9);
 
-                    if (blockFlag != 0)
-                    {
-                        upBlockPos = i + 9;
-                        break;
-                    }
+                    upBlockPos[blockFlag] = i;
+                    //Debug.Log("upBlockPos = " + upBlockPos[blockFlag]);
                 }
             }
+            blockFlag = 0;
 
-            // 計算往下走的第一個阻擋棋子
+            // 計算往下走的阻擋棋子
             for (int i = ind - 9; i >= 0; i = i - 9)
             {
                 if (mgr._arrPos[i] != 0)
                 {
                     blockFlag++;
-                    //Debug.Log("downBlockPos = " + i - 9);
 
-                    if (blockFlag != 0)
-                    {
-                        downBlockPos = i - 9;
-                        break;
-                    }
+                    downBlockPos[blockFlag] = i;
+                    //Debug.Log("downBlockPos = " + downBlockPos[blockFlag]);
                 }
             }
+            blockFlag = 0;
 
-            // 計算往左走的第一個阻擋棋子
+            // 計算往左走的阻擋棋子
             for (int i = ind - 1; i >= indLeftRowEdge; i--)
             {
                 if (mgr._arrPos[i] != 0)
                 {
                     blockFlag++;
-                    //Debug.Log("leftBlockPos = " + (i-1));
 
-                    if (blockFlag != 0)
-                    {
-                        leftBlockPos = i - 1;
-                        break;
-                    }
+                    leftBlockPos[blockFlag] = i;
+                    //Debug.Log("leftBlockPos = " + leftBlockPos[blockFlag]);
+                    //Debug.Log("blockF: " + blockFlag);
                 }
             }
+            blockFlag = 0;
 
-            // 計算往右走的第一個阻擋棋子
+            // 計算往右走的阻擋棋子
             for (int i = ind + 1; i <= indRightRowEdge; i++)
             {
                 if (mgr._arrPos[i] != 0)
                 {
                     blockFlag++;
-                    //Debug.Log("rightBlockPos = " + (i+1));
 
-                    if (blockFlag != 0)
-                    {
-                        rightBlockPos = i + 1;
-                        break;
-                    }
+                    rightBlockPos[blockFlag] = i;
+                    //Debug.Log("rightBlockPos = " + rightBlockPos[blockFlag]);
                 }
             }
+            blockFlag = 0;
+
+            Debug.Log("upBlockPos: " + upBlockPos[1] + " / upKillPos: " + upBlockPos[2]);
+            Debug.Log("downBlockPos: " + downBlockPos[1] + " / downKillPos: " + downBlockPos[2]);
+            Debug.Log("rightBlockPos: " + rightBlockPos[1] + " / rightKillPos: " + rightBlockPos[2]);
+            Debug.Log("leftBlockPos: " + leftBlockPos[1] + " / leftKillPos: " + leftBlockPos[2]);
+
 
             if ((target - ind) % 9 == 0)
             {
-                // 移動的目標點小於上方的阻擋棋子，或移動的目標點大於下方的阻擋棋子 -> 移動
-                if ((target < ind) && (target > downBlockPos))
+                // 往上走並擊殺 
+                if ((target > ind) && (target == upBlockPos[2]))
                 {
-                    //Debug.Log("target > downBlockPos : " + target + " > " + downBlockPos);
                     mgr._ind = ind; // move
                     return true;
                 }
-                else if ((target > ind) && (target < upBlockPos))
+                // 往下走並擊殺
+                else if ((target < ind) && (target == downBlockPos[2]))
                 {
-                    //Debug.Log("target < upBlockPos : " + target + " < " + upBlockPos);
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else if ((target > ind) && (target < upBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else if ((target < ind) && (target > downBlockPos[1]))
+                {
                     mgr._ind = ind; // move
                     return true;
                 }
@@ -311,27 +276,189 @@ public class pos : MonoBehaviour
                 {
                     mgr._ind = target; // don't move
                     return false;
-
                 }
             }
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
-                if (rightBlockPos == 0)
+                if (rightBlockPos[1] == 0)
                 {
-                    rightBlockPos = indRightRowEdge;
+                    rightBlockPos[1] = indRightRowEdge;
                 }
 
-                if (leftBlockPos == 0)
+                if (leftBlockPos[1] == 0)
                 {
-                    leftBlockPos = indLeftRowEdge;
+                    leftBlockPos[1] = indLeftRowEdge;
                 }
 
-                if ((target > ind) && (target < rightBlockPos))
+                // 往右走
+                if ((target > ind) && (target == rightBlockPos[2]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
-                else if ((target < ind) && (target > leftBlockPos))
+                // 往左走
+                else if ((target < ind) && (target == leftBlockPos[2]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else if ((target > ind) && (target < rightBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else if ((target < ind) && (target > leftBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else
+                {
+                    mgr._ind = target; // don't move
+                    return false;
+                }
+            }
+            else
+            {
+                mgr._ind = target; // don't move
+                return false;
+            }
+        }
+
+        if (selectedChessName.Contains("che"))
+        {
+            int indLeftRowEdge;
+            int indRightRowEdge;
+
+            int blockFlag = 0;
+
+            int[] upBlockPos = new int[100];
+            int[] downBlockPos = new int[100];
+            int[] rightBlockPos = new int[100];
+            int[] leftBlockPos = new int[100];
+
+            string[] arr = new string[5];
+
+            // fix chess pos 在右邊界的bugs
+            if (ind % 9 == 0)
+            {
+                indLeftRowEdge = (((1 - (ind % 9)) + ind) - 9);
+                indRightRowEdge = ind;
+            }
+            else
+            {
+                indLeftRowEdge = ((1 - (ind % 9)) + ind);
+                indRightRowEdge = ((9 - (ind % 9)) + ind);
+            }
+
+            // 目標點大於左邊界
+            bool targetBiggerThenIndLeftRowEdge = indLeftRowEdge <= target;
+            // 目標點小於右邊界
+            bool targetSmallerThenIndRightRowEdge = indRightRowEdge >= target;
+
+            // 計算往上走的阻擋棋子
+            for (int i = ind + 9; i <= 90; i = i + 9)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+
+                    upBlockPos[blockFlag] = i;
+                    //Debug.Log("upBlockPos = " + upBlockPos[blockFlag]);
+                }
+            }
+            blockFlag = 0;
+
+            // 計算往下走的阻擋棋子
+            for (int i = ind - 9; i >= 0; i = i - 9)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+
+                    downBlockPos[blockFlag] = i;
+                    //Debug.Log("downBlockPos = " + downBlockPos[blockFlag]);
+                }
+            }
+            blockFlag = 0;
+
+            // 計算往左走的阻擋棋子
+            for (int i = ind - 1; i >= indLeftRowEdge; i--)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+
+                    leftBlockPos[blockFlag] = i;
+                    //Debug.Log("leftBlockPos = " + leftBlockPos[blockFlag]);
+                    //Debug.Log("blockF: " + blockFlag);
+                }
+            }
+            blockFlag = 0;
+
+            // 計算往右走的阻擋棋子
+            for (int i = ind + 1; i <= indRightRowEdge; i++)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+
+                    rightBlockPos[blockFlag] = i;
+                    //Debug.Log("rightBlockPos = " + rightBlockPos[blockFlag]);
+                }
+            }
+            blockFlag = 0;
+
+            Debug.Log("upKillPos: " + upBlockPos[1]);
+            Debug.Log("downKillPos: " + downBlockPos[1]);
+            Debug.Log("rightKillPos: " + rightBlockPos[1]);
+            Debug.Log("leftKillPos: " + leftBlockPos[1]);
+
+            Debug.Log("indrightRowEdge: " + indRightRowEdge);
+            Debug.Log("indLeftRowEdge: " + indLeftRowEdge);
+
+
+            if ((target - ind) % 9 == 0)
+            {
+                // 往上走並擊殺 
+                if ((target > ind) || (target == upBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                // 往下走並擊殺
+                else if ((target < ind) || (target == downBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                // 未達成移動條件，不移動
+                else
+                {
+                    mgr._ind = target; // don't move
+                    return false;
+                }
+            }
+            else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
+            {
+                if (rightBlockPos[1] == 0)
+                {
+                    rightBlockPos[1] = indRightRowEdge;
+                }
+
+                if (leftBlockPos[1] == 0)
+                {
+                    leftBlockPos[1] = indLeftRowEdge;
+                }
+
+                // 往右走
+                if ((target > ind) || (target == rightBlockPos[1]))
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                // 往左走
+                else if ((target < ind) || (target == leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
