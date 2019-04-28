@@ -16,6 +16,8 @@ public class pos : MonoBehaviour
     // red team first, false means red turn.
     public static bool _teamFlag = false;
 
+    // fu
+
     void Start()
     {
 
@@ -48,10 +50,10 @@ public class pos : MonoBehaviour
                 }
 
                 // 點自己不移動
-                mgr._ind = ind; 
+                mgr._ind = ind;
 
                 // 設回false 等待下次點擊mgr._flag變成true的時候，進到下面else的回條件式中
-                mgr._flag = false; 
+                mgr._flag = false;
             }
         }
         else
@@ -64,8 +66,8 @@ public class pos : MonoBehaviour
                     _firstSelectedName = SelectedChessName(ind);
                 }
 
-                if (MoveLogic(_firstSelectedName, ind, mgr._ind) 
-                    && KillChessLogic(ind, mgr._ind) 
+                if (MoveLogic(_firstSelectedName, ind, mgr._ind)
+                    && KillChessLogic(ind, mgr._ind)
                     && PlayerControlTheCorrespondingFirstChess(_firstSelectedName)
                     && (SelectedChessChange(ind) == true))
                 {
@@ -159,15 +161,30 @@ public class pos : MonoBehaviour
         //先做十字移動，之後再考慮碰撞吃子
         if (selectedChessName.Contains("pau"))
         {
-            bool indLeftRowEdge = ((1 - (ind % 9)) + ind) <= target;
-            bool indRightRowEdge = target <= ((9 - (ind % 9)) + ind);
+            int indLeftRowEdge;
+            int indRightRowEdge;
 
-            if ((target - ind) % 9 == 0 || indLeftRowEdge && indRightRowEdge)
+            // fix chess pos 在右邊界的bugs
+            if (ind % 9 == 0)
             {
-                mgr._ind = ind; // move
-                return true;
+                indLeftRowEdge = (((1 - (ind % 9)) + ind) - 9);
+                indRightRowEdge = ind;
+                //Debug.Log("indL: " + (((1 - (ind % 9)) + ind) - 9));
+                //Debug.Log("indR: " + ind);
             }
-            else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
+            else
+            {
+                indLeftRowEdge = ((1 - (ind % 9)) + ind);
+                indRightRowEdge = ((9 - (ind % 9)) + ind);
+                //Debug.Log("indL: " + ((1 - (ind % 9)) + ind));
+                //Debug.Log("indR: " + ((9 - (ind % 9)) + ind));
+            }
+
+            bool targetSmallerThenindLeftRowEdge = indLeftRowEdge <= target;
+            bool targetBiggerThenindRightRowEdge = indRightRowEdge >= target;
+
+
+            if ((target - ind) % 9 == 0 || (targetSmallerThenindLeftRowEdge && targetBiggerThenindRightRowEdge))
             {
                 mgr._ind = ind; // move
                 return true;
@@ -184,74 +201,151 @@ public class pos : MonoBehaviour
         //TODO: 若有障礙物，要擋住。
         if (selectedChessName.Contains("che"))
         {
-            bool movable = false;
-            int gap = target - ind;
-            int flag = 0;
-            if (gap > 9 && gap % 9 == 0) // 向上移動
-            {
-                for (int i = ind + 9; i < target; i = i + 9)
-                {
-                    if (mgr._arrPos[i] != 0)
-                    {
-                        flag++;
-                    }
-                }
-            }
-            /* else if(gap < 9 && gap % 9 == 0) //往下移動
-             {
-                 for (int i = ind; i < target; i = i + 9)
-                 {
-                     if (mgr.arrPos[i] != 0)
-                     {
-                         flag++;
-                     }
-                 }
-             }*/
+            int indLeftRowEdge;
+            int indRightRowEdge;
 
-            /*if (gap > 9 && gap % 9 == 0) // 向左移動
-            {
-                for (int i = ind + 9; i < target; i = i + 9)
-                {
-                    if (mgr.arrPos[i] != 0)
-                    {
-                        flag++;
-                    }
-                }
-            }
-            */
+            int blockFlag = 0;
+            int upBlockPos = 0;
+            int downBlockPos = 0;
+            int rightBlockPos = 0;
+            int leftBlockPos = 0;
 
-            if (flag > 0)
-                movable = false;
+            // fix chess pos 在右邊界的bugs
+            if (ind % 9 == 0)
+            {
+                indLeftRowEdge = (((1 - (ind % 9)) + ind) - 9);
+                indRightRowEdge = ind;
+            }
             else
-                movable = true;
-
-            bool indLeftRowEdge = ((1 - (ind % 9)) + ind) <= target;
-            bool indRightRowEdge = target <= ((9 - (ind % 9)) + ind);
-
-            if (movable)
             {
-                if ((target - ind) % 9 == 0 || (indLeftRowEdge && indRightRowEdge))
+                indLeftRowEdge = ((1 - (ind % 9)) + ind);
+                indRightRowEdge = ((9 - (ind % 9)) + ind);
+            }
+
+            // 目標點大於左邊界
+            bool targetBiggerThenIndLeftRowEdge = indLeftRowEdge <= target;
+            // 目標點小於右邊界
+            bool targetSmallerThenIndRightRowEdge = indRightRowEdge >= target;
+
+            // 計算往上走的第一個阻擋棋子
+            for (int i = ind + 9; i <= 90; i = i + 9)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+                    //Debug.Log("upBlockPos = " + i + 9);
+
+                    if (blockFlag != 0)
+                    {
+                        upBlockPos = i + 9;
+                        break;
+                    }
+                }
+            }
+
+            // 計算往下走的第一個阻擋棋子
+            for (int i = ind - 9; i >= 0; i = i - 9)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+                    //Debug.Log("downBlockPos = " + i - 9);
+
+                    if (blockFlag != 0)
+                    {
+                        downBlockPos = i - 9;
+                        break;
+                    }
+                }
+            }
+
+            // 計算往左走的第一個阻擋棋子
+            for (int i = ind - 1; i >= indLeftRowEdge; i--)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+                    //Debug.Log("leftBlockPos = " + (i-1));
+
+                    if (blockFlag != 0)
+                    {
+                        leftBlockPos = i - 1;
+                        break;
+                    }
+                }
+            }
+
+            // 計算往右走的第一個阻擋棋子
+            for (int i = ind + 1; i <= indRightRowEdge; i++)
+            {
+                if (mgr._arrPos[i] != 0)
+                {
+                    blockFlag++;
+                    //Debug.Log("rightBlockPos = " + (i+1));
+
+                    if (blockFlag != 0)
+                    {
+                        rightBlockPos = i + 1;
+                        break;
+                    }
+                }
+            }
+
+            if ((target - ind) % 9 == 0)
+            {
+                // 移動的目標點小於上方的阻擋棋子，或移動的目標點大於下方的阻擋棋子 -> 移動
+                if ((target < ind) && (target > downBlockPos))
+                {
+                    //Debug.Log("target > downBlockPos : " + target + " > " + downBlockPos);
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                else if ((target > ind) && (target < upBlockPos))
+                {
+                    //Debug.Log("target < upBlockPos : " + target + " < " + upBlockPos);
+                    mgr._ind = ind; // move
+                    return true;
+                }
+                // 未達成移動條件，不移動
+                else
+                {
+                    mgr._ind = target; // don't move
+                    return false;
+
+                }
+            }
+            else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
+            {
+                if (rightBlockPos == 0)
+                {
+                    rightBlockPos = indRightRowEdge;
+                }
+
+                if (leftBlockPos == 0)
+                {
+                    leftBlockPos = indLeftRowEdge;
+                }
+
+                if ((target > ind) && (target < rightBlockPos))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
-                else if (ind % 9 == 0 && Math.Abs(target - ind) < 9)
+                else if ((target < ind) && (target > leftBlockPos))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
                 else
                 {
-                    mgr._ind = target;
+                    mgr._ind = target; // don't move
                     return false;
-                    // don't move
                 }
             }
             else
             {
-                mgr._ind = target;
+                mgr._ind = target; // don't move
                 return false;
-                // don't move
             }
         }
 
@@ -448,20 +542,6 @@ public class pos : MonoBehaviour
         }
     }
 
-    /*
-    private static string GamerIs(bool teamFlag)
-    {
-        if (_teamFlag == false)
-        {
-            return "red";
-        }
-        else
-        {
-            return "black";
-        }
-    }
-    */
-
     private static bool SelectedChessChange(int index)
     {
         if (_selectedName == _firstSelectedName)
@@ -476,9 +556,7 @@ public class pos : MonoBehaviour
 
     private static bool KillChessLogic(int target, int ind)
     {
-        bool killchess = false;
-        //是否能吃子的參數 預設為不能吃
-        string ind_string = Convert.ToString(mgr._arrPos[ind]); //將第一次點到的位置型態轉成字串
+        string ind_string = Convert.ToString(mgr._arrPos[ind]);
         string target_string = Convert.ToString(mgr._arrPos[target]);
         //兵卒
         string[] tzu = { "12", "13", "14", "15", "16" };
@@ -501,199 +579,106 @@ public class pos : MonoBehaviour
         //將帥
         string[] jiang = { "1" };
         string[] shuo = { "17" };
-        //卒吃兵,帥
-        if (Array.Exists(tzu, element => element == ind_string) && (Array.Exists(bing, element => element == target_string)
-        || Array.Exists(shuo, element => element == target_string)))
-        {
-            //Debug.Log("tzu " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
-        }
 
-        //兵吃卒,將
-        if (Array.Exists(bing, element => element == ind_string) && (Array.Exists(tzu, element => element == target_string)
-       || Array.Exists(jiang, element => element == target_string)))
-        {
-            //Debug.Log("bing " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
-        }
 
-        //炮的規則
-        //黑炮吃所有 帥士象
-        if (Array.Exists(black_pau, element => element == ind_string) && (Array.Exists(shuo, element => element == target_string)
-            || Array.Exists(red_shr, element => element == target_string) || Array.Exists(red_shiang, element => element == target_string)
-            || Array.Exists(red_che, element => element == target_string) || Array.Exists(red_ma, element => element == target_string)
-            || Array.Exists(red_pau, element => element == target_string) || Array.Exists(bing, element => element == target_string)))
-        {
-            //Debug.Log("black_pau " +"mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-       
+        bool blackCanEat_flag = Array.Exists(shuo, element => element == target_string) || Array.Exists(red_shr, element => element == target_string) || Array.Exists(red_shiang, element => element == target_string)
+           || Array.Exists(red_che, element => element == target_string) || Array.Exists(red_ma, element => element == target_string)
+           || Array.Exists(red_pau, element => element == target_string) || Array.Exists(bing, element => element == target_string);
 
-        //紅炮吃所有
-        if (Array.Exists(red_pau, element => element == ind_string) && (Array.Exists(shuo, element => element == target_string)
+        bool redCanEat_flag = Array.Exists(jiang, element => element == target_string)
            || Array.Exists(black_shr, element => element == target_string) || Array.Exists(black_shiang, element => element == target_string)
            || Array.Exists(black_che, element => element == target_string) || Array.Exists(black_ma, element => element == target_string)
-           || Array.Exists(black_pau, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
+           || Array.Exists(black_pau, element => element == target_string) || Array.Exists(tzu, element => element == target_string);
+
+        //兵卒
+        if (Array.Exists(tzu, element => element == ind_string) && blackCanEat_flag)
+        {
+            //Debug.Log("bing " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
+            return true;
+        }
+
+        if (Array.Exists(bing, element => element == ind_string) && redCanEat_flag)
+        {
+            //Debug.Log("bing " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
+            return true;
+        }
+
+
+        //炮
+        if (Array.Exists(black_pau, element => element == ind_string) && blackCanEat_flag)
+        {
+            //Debug.Log("black_pau " +"mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
+            return true;
+        }
+
+        if (Array.Exists(red_pau, element => element == ind_string) && redCanEat_flag)
         {
             //Debug.Log("red_pau " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
+            return true;
         }
 
-        //馬的規則
-        //黑馬吃紅馬,紅兵
-        if (Array.Exists(black_ma, element => element == ind_string) && (Array.Exists(red_ma, element => element == target_string)
-        && Array.Exists(bing, element => element == target_string)))
+        //馬
+        if (Array.Exists(black_ma, element => element == ind_string) && blackCanEat_flag)
         {
             //Debug.Log("black_ma " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
+            return true;
         }
 
-        //紅馬吃黑馬,紅兵
-        if (Array.Exists(red_ma, element => element == ind_string) && (Array.Exists(tzu, element => element == target_string)
-        || Array.Exists(bing, element => element == target_string)))
+        if (Array.Exists(red_ma, element => element == ind_string) && redCanEat_flag)
         {
             //Debug.Log("red_ma " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
+            return true;
         }
 
-        //車的規則
-        //黑車全吃        
-        if (Array.Exists(black_che, element => element == ind_string) && (Array.Exists(shuo, element => element == target_string)
-            || Array.Exists(red_shr, element => element == target_string) || Array.Exists(red_shiang, element => element == target_string)
-            || Array.Exists(red_che, element => element == target_string) || Array.Exists(red_ma, element => element == target_string)
-            || Array.Exists(red_pau, element => element == target_string) || Array.Exists(bing, element => element == target_string)))
+        //車
+        if (Array.Exists(black_che, element => element == ind_string) && blackCanEat_flag)
         {
-            //Debug.Log("black_pau " +"mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
+            //Debug.Log("black_che " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
+            return true;
         }
-        else
+        if (Array.Exists(red_che, element => element == ind_string) && redCanEat_flag)
         {
-            killchess = false;
+            //Debug.Log("red_che " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
+            return true;
         }
-
-        //車的規則
-        //紅車全吃
-        //炮的規則
-        //黑炮吃所有 帥士象
-        if (Array.Exists(red_che, element => element == ind_string) && (Array.Exists(shuo, element => element == target_string)
-            || Array.Exists(black_shr, element => element == target_string) || Array.Exists(black_shiang, element => element == target_string)
-            || Array.Exists(black_che, element => element == target_string) || Array.Exists(black_ma, element => element == target_string)
-            || Array.Exists(black_pau, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
-        {
-            //Debug.Log("black_pau " +"mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
-        }
-
-        //象的規則
-        //黑象吃紅象,紅車,紅馬,紅兵
-        if (Array.Exists(black_shiang, element => element == ind_string) && (Array.Exists(red_shiang, element => element == target_string)
-        || Array.Exists(red_che, element => element == target_string) || Array.Exists(bing, element => element == target_string)))
+        //象
+        if (Array.Exists(black_shiang, element => element == ind_string) && blackCanEat_flag)
         {
             //Debug.Log("black_shiang " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
+            return true;
         }
 
-        //紅象吃黑象,黑車,黑馬,黑卒
-        if (Array.Exists(red_shiang, element => element == ind_string) && (Array.Exists(black_che, element => element == target_string)
-        || Array.Exists(black_ma, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
+        if (Array.Exists(red_shiang, element => element == ind_string) && redCanEat_flag)
         {
             //Debug.Log("red_shiang " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
-        }
-        else
-        {
-            killchess = false;
+            return true;
         }
 
-        //士的規則(不能走出九宮格所以不包含士)
-        //黑士吃紅象,紅車,紅馬,紅兵
-        if (Array.Exists(black_shr, element => element == ind_string) && (Array.Exists(red_shiang, element => element == target_string)
-        || Array.Exists(red_ma, element => element == target_string) || Array.Exists(bing, element => element == target_string)))
+        //士
+        if (Array.Exists(black_shr, element => element == ind_string) && blackCanEat_flag)
         {
             //Debug.Log("black_shr " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
+            return true;
         }
-        else
-        {
-            killchess = false;
-        }
-        //紅士吃黑象,黑車,黑馬,黑卒
-        if (Array.Exists(red_shr, element => element == ind_string) && (Array.Exists(black_che, element => element == target_string)
-        || Array.Exists(black_ma, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
+
+        if (Array.Exists(red_shr, element => element == ind_string) && redCanEat_flag)
         {
             //Debug.Log("red_shr " + "mgr._arrPos[ind]:" + mgr._arrPos[ind]+ "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
+            return true;
         }
-        else
-        {
-            killchess = false;
-        }
-        //將帥規則(不能走出九宮格所以不包含士)
-        //將吃黑象,黑車,黑馬,黑卒
-        if (Array.Exists(jiang, element => element == ind_string) && (Array.Exists(black_shiang, element => element == target_string)
-        || Array.Exists(black_che, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
+        //將帥
+        if (Array.Exists(jiang, element => element == ind_string) && blackCanEat_flag)
         {
             //Debug.Log("jiang "+ "mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
+            return true;
         }
-        else
-        {
-            killchess = false;
-        }
-        //帥吃黑象,黑車,黑馬,黑卒
-        if (Array.Exists(shuo, element => element == ind_string) && (Array.Exists(black_che, element => element == target_string)
-        || Array.Exists(black_ma, element => element == target_string) || Array.Exists(tzu, element => element == target_string)))
+        if (Array.Exists(shuo, element => element == ind_string) && redCanEat_flag)
         {
             //Debug.Log("shuo" +"mgr._arrPos[ind]:" + mgr._arrPos[ind] + "mgr._arrPos[target] " + mgr._arrPos[target]);
-            killchess = true;
-            return killchess;
+            return true;
         }
-        else
-        {
-            killchess = false;
-        }
-        return killchess;
+
+        return false;
     }
 
     public static bool PlayerControlTheCorrespondingChess(string selectedName)
@@ -720,5 +705,4 @@ public class pos : MonoBehaviour
             return false;
         }
     }
-
 }
