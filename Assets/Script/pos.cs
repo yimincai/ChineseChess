@@ -156,20 +156,19 @@ public class pos : MonoBehaviour
             }
         }
 
-        //先做十字移動，之後再考慮碰撞吃子
         if (selectedChessName.Contains("pau"))
         {
+            // 棋子移動的左邊界及右邊界
             int indLeftRowEdge;
             int indRightRowEdge;
 
             int blockFlag = 0;
 
+            // 儲存所有阻擋棋子的儲存陣列
             int[] upBlockPos = new int[100];
             int[] downBlockPos = new int[100];
             int[] rightBlockPos = new int[100];
             int[] leftBlockPos = new int[100];
-
-            string[] arr = new string[5];
 
             // fix chess pos 在右邊界的bugs
             if (ind % 9 == 0)
@@ -188,7 +187,7 @@ public class pos : MonoBehaviour
             // 目標點小於右邊界
             bool targetSmallerThenIndRightRowEdge = indRightRowEdge >= target;
 
-            // 計算往上走的阻擋棋子
+            // 計算所有往上走的阻擋棋子
             for (int i = ind + 9; i <= 90; i = i + 9)
             {
                 if (mgr._arrPos[i] != 0)
@@ -201,7 +200,7 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
-            // 計算往下走的阻擋棋子
+            // 計算往下走所有的阻擋棋子
             for (int i = ind - 9; i >= 0; i = i - 9)
             {
                 if (mgr._arrPos[i] != 0)
@@ -214,7 +213,7 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
-            // 計算往左走的阻擋棋子
+            // 計算往左走所有的阻擋棋子
             for (int i = ind - 1; i >= indLeftRowEdge; i--)
             {
                 if (mgr._arrPos[i] != 0)
@@ -228,7 +227,7 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
-            // 計算往右走的阻擋棋子
+            // 計算往右走所有的阻擋棋子
             for (int i = ind + 1; i <= indRightRowEdge; i++)
             {
                 if (mgr._arrPos[i] != 0)
@@ -241,12 +240,14 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
+            /*
             Debug.Log("upBlockPos: " + upBlockPos[1] + " / upKillPos: " + upBlockPos[2]);
             Debug.Log("downBlockPos: " + downBlockPos[1] + " / downKillPos: " + downBlockPos[2]);
             Debug.Log("rightBlockPos: " + rightBlockPos[1] + " / rightKillPos: " + rightBlockPos[2]);
             Debug.Log("leftBlockPos: " + leftBlockPos[1] + " / leftKillPos: " + leftBlockPos[2]);
+            */
 
-
+            // 上下移動
             if ((target - ind) % 9 == 0)
             {
                 // 往上走並擊殺 
@@ -261,11 +262,13 @@ public class pos : MonoBehaviour
                     mgr._ind = ind; // move
                     return true;
                 }
+                // 往上走
                 else if ((target > ind) && (target < upBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
+                // 往下走
                 else if ((target < ind) && (target > downBlockPos[1]))
                 {
                     mgr._ind = ind; // move
@@ -278,8 +281,10 @@ public class pos : MonoBehaviour
                     return false;
                 }
             }
+            // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
+                // 解決移動邊界的bugs
                 if (rightBlockPos[1] == 0)
                 {
                     rightBlockPos[1] = indRightRowEdge;
@@ -290,23 +295,25 @@ public class pos : MonoBehaviour
                     leftBlockPos[1] = indLeftRowEdge;
                 }
 
-                // 往右走
+                // 往右走並擊殺
                 if ((target > ind) && (target == rightBlockPos[2]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
-                // 往左走
+                // 往左走並擊殺
                 else if ((target < ind) && (target == leftBlockPos[2]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
+                // 往右走
                 else if ((target > ind) && (target < rightBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
+                // 往左走
                 else if ((target < ind) && (target > leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
@@ -327,11 +334,14 @@ public class pos : MonoBehaviour
 
         if (selectedChessName.Contains("che"))
         {
+
+            // 棋子移動的左邊界及右邊界
             int indLeftRowEdge;
             int indRightRowEdge;
 
             int blockFlag = 0;
 
+            // 儲存所有阻擋棋子的儲存陣列
             int[] upBlockPos = new int[100];
             int[] downBlockPos = new int[100];
             int[] rightBlockPos = new int[100];
@@ -409,6 +419,7 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
+            /*
             Debug.Log("upKillPos: " + upBlockPos[1]);
             Debug.Log("downKillPos: " + downBlockPos[1]);
             Debug.Log("rightKillPos: " + rightBlockPos[1]);
@@ -416,17 +427,18 @@ public class pos : MonoBehaviour
 
             Debug.Log("indrightRowEdge: " + indRightRowEdge);
             Debug.Log("indLeftRowEdge: " + indLeftRowEdge);
+            */
 
-
+            // 往上下移動
             if ((target - ind) % 9 == 0)
             {
-                // 往上走並擊殺 
+                // 往上走並擊殺，或往上走
                 if ((target > ind) || (target == upBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
-                // 往下走並擊殺
+                // 往下走並擊殺，或往下走
                 else if ((target < ind) || (target == downBlockPos[1]))
                 {
                     mgr._ind = ind; // move
@@ -439,8 +451,10 @@ public class pos : MonoBehaviour
                     return false;
                 }
             }
+            // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
+                // 解決邊界移動的bugs
                 if (rightBlockPos[1] == 0)
                 {
                     rightBlockPos[1] = indRightRowEdge;
@@ -451,13 +465,13 @@ public class pos : MonoBehaviour
                     leftBlockPos[1] = indLeftRowEdge;
                 }
 
-                // 往右走
+                // 往右走並擊殺
                 if ((target > ind) || (target == rightBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
-                // 往左走
+                // 往左走並擊殺
                 else if ((target < ind) || (target == leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
@@ -603,13 +617,38 @@ public class pos : MonoBehaviour
 
         if (selectedChessName.Contains("jiang"))
         {
+            int[] shuoArray = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
             int[] jiangArray = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
+            int NotEmptyCheck_flag = 0;
             var gap = Math.Abs(target - ind);
-
             bool movable = jiangArray.Contains(target) && jiangArray.Contains(ind);
+
+            bool KingFace2Face_movable = shuoArray.Contains(target) && jiangArray.Contains(ind) && gap % 9 == 0;
+
+
+            if (KingFace2Face_movable)
+            {
+                for (int i = ind - 9; i >= target + 9; i = i - 9)
+                {
+                    if (mgr._arrPos[i] != 0)
+                    {
+                        NotEmptyCheck_flag++;
+                    }
+                }
+            }
+
+            bool EmptyCheck = NotEmptyCheck_flag == 0 && mgr._arrPos[target] == 17;
+
             if (movable && (gap == 9 || gap == 1))
             {
                 mgr._ind = ind; // move
+                Debug.Log("if (movable && (gap == 9 || gap == 1))");
+                return true;
+            }
+            else if (KingFace2Face_movable && EmptyCheck)
+            {
+                mgr._ind = ind; // move
+                Debug.Log(" if (KingFace2Face_movable && EmptyCheck)");
                 return true;
             }
             else
@@ -621,11 +660,32 @@ public class pos : MonoBehaviour
 
         if (selectedChessName.Contains("shuo"))
         {
+            int[] jiangArray = { 67, 68, 69, 76, 77, 78, 85, 86, 87 };
             int[] shuoArray = { 4, 5, 6, 13, 14, 15, 22, 23, 24 };
             var gap = Math.Abs(target - ind);
-
+            int NotEmptyCheck_flag = 0;
             bool movable = shuoArray.Contains(target) && shuoArray.Contains(ind);
+            bool KingFace2Face_movable = jiangArray.Contains(target) && shuoArray.Contains(ind) && gap % 9 == 0;
+
+            if (KingFace2Face_movable)
+            {
+                for (int i = ind + 9; i <= target - 9; i = i + 9)
+                {
+                    if (mgr._arrPos[i] != 0)
+                    {
+                        NotEmptyCheck_flag++;
+                    }
+                }
+            }
+
+            bool EmptyCheck = NotEmptyCheck_flag == 0 && mgr._arrPos[target] == 1;
+
             if (movable && (gap == 9 || gap == 1))
+            {
+                mgr._ind = ind; // move
+                return true;
+            }
+            else if (KingFace2Face_movable && EmptyCheck)
             {
                 mgr._ind = ind; // move
                 return true;
