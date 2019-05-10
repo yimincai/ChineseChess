@@ -182,9 +182,9 @@ public class pos : MonoBehaviour
                 indRightRowEdge = ((9 - (ind % 9)) + ind);
             }
 
-            // 目標點大於左邊界
+            // 目標點(棋子要移動到的位置)大於左邊界
             bool targetBiggerThenIndLeftRowEdge = indLeftRowEdge <= target;
-            // 目標點小於右邊界
+            // 目標點(棋子要移動到的位置)小於右邊界
             bool targetSmallerThenIndRightRowEdge = indRightRowEdge >= target;
 
             // 計算所有往上走的阻擋棋子
@@ -240,12 +240,10 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
-            /*
             Debug.Log("upBlockPos: " + upBlockPos[1] + " / upKillPos: " + upBlockPos[2]);
             Debug.Log("downBlockPos: " + downBlockPos[1] + " / downKillPos: " + downBlockPos[2]);
             Debug.Log("rightBlockPos: " + rightBlockPos[1] + " / rightKillPos: " + rightBlockPos[2]);
             Debug.Log("leftBlockPos: " + leftBlockPos[1] + " / leftKillPos: " + leftBlockPos[2]);
-            */
 
             // 上下移動
             if ((target - ind) % 9 == 0)
@@ -284,7 +282,7 @@ public class pos : MonoBehaviour
             // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
-                // 解決移動邊界的bugs
+                // 解決移動邊界的bugs，當左右邊沒有阻擋棋子時rightBlock == 0 && leftBlockPos[1] == 0 影響下方判斷式邏輯
                 if (rightBlockPos[1] == 0)
                 {
                     rightBlockPos[1] = indRightRowEdge;
@@ -346,8 +344,6 @@ public class pos : MonoBehaviour
             int[] downBlockPos = new int[100];
             int[] rightBlockPos = new int[100];
             int[] leftBlockPos = new int[100];
-
-            string[] arr = new string[5];
 
             // fix chess pos 在右邊界的bugs
             if (ind % 9 == 0)
@@ -433,13 +429,13 @@ public class pos : MonoBehaviour
             if ((target - ind) % 9 == 0)
             {
                 // 往上走並擊殺，或往上走
-                if ((target > ind) || (target == upBlockPos[1]))
+                if ((target > ind) && (target <= upBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
                 // 往下走並擊殺，或往下走
-                else if ((target < ind) || (target == downBlockPos[1]))
+                else if ((target < ind) && (target >= downBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
@@ -466,13 +462,13 @@ public class pos : MonoBehaviour
                 }
 
                 // 往右走並擊殺
-                if ((target > ind) || (target == rightBlockPos[1]))
+                if ((target > ind) && (target <= rightBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
                 // 往左走並擊殺
-                else if ((target < ind) || (target == leftBlockPos[1]))
+                else if ((target < ind) && (target >= leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
