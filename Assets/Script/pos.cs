@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class pos : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class pos : MonoBehaviour
     // red team first, false means red turn.
     public static bool _teamFlag = false;
 
+    // 帥或將被擊殺顯示的提示視窗
+    public Image _winnerAlertPanel;
+
     void Start()
     {
 
@@ -24,7 +28,7 @@ public class pos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     // Controller
@@ -96,6 +100,10 @@ public class pos : MonoBehaviour
             }
         }
         Debug.Log("=============================================");
+        if (CheckKingGotKill())
+        {
+            _winnerAlertPanel.gameObject.SetActive(true);
+        }
     }
 
     // GameLogic
@@ -638,13 +646,14 @@ public class pos : MonoBehaviour
             if (movable && (gap == 9 || gap == 1))
             {
                 mgr._ind = ind; // move
-                Debug.Log("if (movable && (gap == 9 || gap == 1))");
+                //Debug.Log("if (movable && (gap == 9 || gap == 1))");
+
                 return true;
             }
             else if (KingFace2Face_movable && EmptyCheck)
             {
                 mgr._ind = ind; // move
-                Debug.Log(" if (KingFace2Face_movable && EmptyCheck)");
+                //Debug.Log(" if (KingFace2Face_movable && EmptyCheck)");
                 return true;
             }
             else
@@ -886,6 +895,22 @@ public class pos : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+    
+    public bool CheckKingGotKill()
+    {
+        int jiang = Array.IndexOf(mgr._arrPos, 1);
+        int shuo = Array.IndexOf(mgr._arrPos, 17);
+
+        if ((jiang > 0) && (shuo > 0))
+        {
+            //將跟帥都存在
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 }
