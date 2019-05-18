@@ -111,10 +111,10 @@ MonoBehaviour:
     y: 30
     width: 2498
     height: 987
-  m_MinSize: {x: 911, y: 524}
-  m_MaxSize: {x: 22006, y: 14024}
+  m_MinSize: {x: 917, y: 524}
+  m_MaxSize: {x: 22012, y: 14024}
   vertical: 1
-  controlID: 42160
+  controlID: 4217
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,10 +138,10 @@ MonoBehaviour:
     y: 0
     width: 2498
     height: 792
-  m_MinSize: {x: 911, y: 424}
-  m_MaxSize: {x: 22006, y: 10024}
+  m_MinSize: {x: 917, y: 424}
+  m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 42161
+  controlID: 4218
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 424}
   m_MaxSize: {x: 4002, y: 8024}
   vertical: 1
-  controlID: 42286
+  controlID: 4200
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -434,9 +434,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 127.41252, y: 314.38376, z: -2.0625}
+    m_Target: {x: 586.8138, y: 389.0741, z: -2.5}
     speed: 2
-    m_Value: {x: 127.41252, y: 314.38376, z: -2.0625}
+    m_Value: {x: 586.8138, y: 389.0741, z: -2.5}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -468,9 +468,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 479.6108
+    m_Target: 521.628
     speed: 2
-    m_Value: 479.6108
+    m_Value: 521.628
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -513,7 +513,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0421ffff1821ffff4822ffff5022ffff026dffff066dffff729effffe09effff2cdfffff9cdfffff46ebffff48ebffff24ecffff38ecffffceefffffd2efffff2cf0ffff40f0ffff46f0ffffe2f3ffff0ef4ffff64f4ffff78f4ffffaaf5ffffd6fbffffae0c0000d04400006a4500007245000088450000
+      m_ExpandedIDs: f8d8ffffdcefffff7ef3ffffa6f7ffffc2f7ffffbefbffff1e2f0000e0300000f2300000fe3000002a370000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -575,20 +575,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Script
+    - Assets/Resources
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Script
+  - Assets/Resources
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\bravc\Downloads\ChineseChess
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d0090000
-    m_LastClickedID: 2512
-    m_ExpandedIDs: 000000006209000000ca9a3b
+    m_SelectedIDs: dc0b0000
+    m_LastClickedID: 3036
+    m_ExpandedIDs: 000000007009000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -616,7 +616,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006209000000ca9a3b
+    m_ExpandedIDs: 000000007009000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
