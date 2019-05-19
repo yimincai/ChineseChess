@@ -76,6 +76,11 @@ public class pos : MonoBehaviour
                     // 殺棋
                     mgr._arrPos[ind] = 0;
 
+                    if ((ind != mgr._ind) && mgr._arrPos[mgr._ind] != 0)
+                    {
+                        SwitchPlayer(_teamFlag);
+                    }
+
                     mgr.move(ind);
                 }
                 else
@@ -89,6 +94,10 @@ public class pos : MonoBehaviour
                 {
                     if (mgr._ind != ind)
                     {
+                        if ((ind != mgr._ind) && mgr._arrPos[mgr._ind] != 0)
+                        {
+                            SwitchPlayer(_teamFlag);
+                        }
                         mgr.move(ind); //target 
                     }
                 }
