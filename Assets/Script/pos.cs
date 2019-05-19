@@ -248,6 +248,33 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
+            // 解決移動邊界的bugs，當左右邊沒有阻擋棋子時rightBlock == 0 && leftBlockPos[1] == 0 影響下方判斷式邏輯
+            if (upBlockPos[1] == 0)
+            {
+                for (int i = ind; i <= 90; i = i + 9)
+                {
+                    upBlockPos[1] = i;
+                }
+            }
+
+            if (downBlockPos[1] == 0)
+            {
+                for(int i = ind; i >= 0; i = i - 9)
+                {
+                    downBlockPos[1] = i;
+                }
+            }
+
+            if (rightBlockPos[1] == 0)
+            {
+                rightBlockPos[1] = indRightRowEdge;
+            }
+
+            if (leftBlockPos[1] == 0)
+            {
+                leftBlockPos[1] = indLeftRowEdge;
+            }
+
             Debug.Log("upBlockPos: " + upBlockPos[1] + " / upKillPos: " + upBlockPos[2]);
             Debug.Log("downBlockPos: " + downBlockPos[1] + " / downKillPos: " + downBlockPos[2]);
             Debug.Log("rightBlockPos: " + rightBlockPos[1] + " / rightKillPos: " + rightBlockPos[2]);
@@ -290,17 +317,6 @@ public class pos : MonoBehaviour
             // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
-                // 解決移動邊界的bugs，當左右邊沒有阻擋棋子時rightBlock == 0 && leftBlockPos[1] == 0 影響下方判斷式邏輯
-                if (rightBlockPos[1] == 0)
-                {
-                    rightBlockPos[1] = indRightRowEdge;
-                }
-
-                if (leftBlockPos[1] == 0)
-                {
-                    leftBlockPos[1] = indLeftRowEdge;
-                }
-
                 // 往右走並擊殺
                 if ((target > ind) && (target == rightBlockPos[2]))
                 {
@@ -314,13 +330,13 @@ public class pos : MonoBehaviour
                     return true;
                 }
                 // 往右走
-                else if ((target > ind) && (target < rightBlockPos[1]))
+                else if ((target > ind) && (target <= rightBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
                 // 往左走
-                else if ((target < ind) && (target > leftBlockPos[1]))
+                else if ((target < ind) && (target >= leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
@@ -423,6 +439,33 @@ public class pos : MonoBehaviour
             }
             blockFlag = 0;
 
+            // 解決移動邊界的bugs，當左右邊沒有阻擋棋子時rightBlock == 0 && leftBlockPos[1] == 0 影響下方判斷式邏輯
+            if (upBlockPos[1] == 0)
+            {
+                for (int i = ind; i <= 90; i = i + 9)
+                {
+                    upBlockPos[1] = i;
+                }
+            }
+
+            if (downBlockPos[1] == 0)
+            {
+                for (int i = ind; i >= 0; i = i - 9)
+                {
+                    downBlockPos[1] = i;
+                }
+            }
+
+            if (rightBlockPos[1] == 0)
+            {
+                rightBlockPos[1] = indRightRowEdge;
+            }
+
+            if (leftBlockPos[1] == 0)
+            {
+                leftBlockPos[1] = indLeftRowEdge;
+            }
+
             /*
             Debug.Log("upKillPos: " + upBlockPos[1]);
             Debug.Log("downKillPos: " + downBlockPos[1]);
@@ -458,17 +501,6 @@ public class pos : MonoBehaviour
             // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
-                // 解決邊界移動的bugs
-                if (rightBlockPos[1] == 0)
-                {
-                    rightBlockPos[1] = indRightRowEdge;
-                }
-
-                if (leftBlockPos[1] == 0)
-                {
-                    leftBlockPos[1] = indLeftRowEdge;
-                }
-
                 // 往右走並擊殺
                 if ((target > ind) && (target <= rightBlockPos[1]))
                 {
