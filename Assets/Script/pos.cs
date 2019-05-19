@@ -76,7 +76,6 @@ public class pos : MonoBehaviour
                     // 殺棋
                     mgr._arrPos[ind] = 0;
 
-                    SwitchPlayer(_teamFlag);
                     mgr.move(ind);
                 }
                 else
@@ -86,14 +85,10 @@ public class pos : MonoBehaviour
             }
             else
             {
-
-                if (PlayerControlTheCorrespondingChess(_selectedName))
+                if (PlayerControlTheCorrespondingChess(_selectedName) && MoveLogic(_selectedName, ind, mgr._ind))
                 {
-                    MoveLogic(_selectedName, ind, mgr._ind);
-
                     if (mgr._ind != ind)
                     {
-                        SwitchPlayer(_teamFlag);
                         mgr.move(ind); //target 
                     }
                 }
@@ -139,6 +134,7 @@ public class pos : MonoBehaviour
         }
 
         if (selectedChessName.Contains("tzu"))
+
         {
             if (ind <= 45 && Math.Abs(ind - target) == 1 || ind - target == 9)
             {
@@ -165,6 +161,7 @@ public class pos : MonoBehaviour
         }
 
         if (selectedChessName.Contains("pau"))
+
         {
             // 棋子移動的左邊界及右邊界
             int indLeftRowEdge;
@@ -749,7 +746,7 @@ public class pos : MonoBehaviour
         return chessName;
     }
 
-    private static void SwitchPlayer(bool _teamFlag)
+    public static void SwitchPlayer(bool _teamFlag)
     {
         // 如果紅色走完了
         if (_teamFlag == false)

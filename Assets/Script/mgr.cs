@@ -93,6 +93,11 @@ public class mgr : MonoBehaviour
     // Contorller
     public static void move(int target)
     {
+        if((target != _ind) && _arrPos[_ind] != 0)
+        {
+            pos.SwitchPlayer(pos._teamFlag);
+        }
+
         //Debug.Log("mgr.cs ind:" + ind + " target:" + target);
         _arrPos[target] = _arrPos[_ind];
         _arrPos[_ind] = 0;
