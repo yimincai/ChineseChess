@@ -3689,8 +3689,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1932373255}
   - component: {fileID: 1932373257}
-  - component: {fileID: 1932373258}
   - component: {fileID: 1932373256}
+  - component: {fileID: 1932373258}
   m_Layer: 5
   m_Name: LosserAndPlayAgainAlerPanelMessage
   m_TagString: Untagged

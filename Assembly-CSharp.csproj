@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\EndGameBtn.cs" />
-    <Compile Include="Assets\Script\LosserAndPlayAgainAlerPanelMessage.cs" />
+    <Compile Include="Assets\Script\LosserAndPlayAgainAlertPanelMessage.cs" />
     <Compile Include="Assets\Script\mgr.cs" />
     <Compile Include="Assets\Script\PlayAgainPanel.cs" />
     <Compile Include="Assets\Script\pos.cs" />
