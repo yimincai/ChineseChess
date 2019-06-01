@@ -336,13 +336,13 @@ public class pos : MonoBehaviour
                     return true;
                 }
                 // 往右走
-                else if ((target > ind) && (target <= rightBlockPos[1]))
+                else if ((target > ind) && (target < rightBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
                 }
                 // 往左走
-                else if ((target < ind) && (target >= leftBlockPos[1]))
+                else if ((target < ind) && (target > leftBlockPos[1]))
                 {
                     mgr._ind = ind; // move
                     return true;
