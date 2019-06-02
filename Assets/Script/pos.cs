@@ -271,6 +271,7 @@ public class pos : MonoBehaviour
                 }
             }
 
+            /*
             if (rightBlockPos[1] == 0)
             {
                 rightBlockPos[1] = indRightRowEdge;
@@ -280,6 +281,7 @@ public class pos : MonoBehaviour
             {
                 leftBlockPos[1] = indLeftRowEdge;
             }
+            */
 
             Debug.Log("upBlockPos: " + upBlockPos[1] + " / upKillPos: " + upBlockPos[2]);
             Debug.Log("downBlockPos: " + downBlockPos[1] + " / downKillPos: " + downBlockPos[2]);
@@ -313,6 +315,11 @@ public class pos : MonoBehaviour
                     mgr._ind = ind; // move
                     return true;
                 }
+                else if (target == indRightRowEdge || target == indLeftRowEdge)
+                {
+                    mgr._ind = ind; // move
+                    return true;
+                }
                 // 未達成移動條件，不移動
                 else
                 {
@@ -323,6 +330,25 @@ public class pos : MonoBehaviour
             // 左右移動
             else if (targetBiggerThenIndLeftRowEdge && targetSmallerThenIndRightRowEdge)
             {
+                // 修復左右移動邊界bug
+                if (rightBlockPos[1] == 0 && target <= indRightRowEdge && target > ind)
+                {
+                    mgr._ind = ind; // move
+                    rightBlockPos[1] = indRightRowEdge;
+                    return true;
+                }
+                else if (leftBlockPos[1] == 0 && target >= indLeftRowEdge && target < ind)
+                {
+                    mgr._ind = ind; // move
+                    leftBlockPos[1] = indLeftRowEdge;
+                    return true;
+                }
+                else
+                {
+                    rightBlockPos[1] = indRightRowEdge;
+                    leftBlockPos[1] = indLeftRowEdge;
+                }
+
                 // 往右走並擊殺
                 if ((target > ind) && (target == rightBlockPos[2]))
                 {
