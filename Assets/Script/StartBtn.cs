@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartBtn : MonoBehaviour
 {
@@ -33,6 +35,10 @@ public class StartBtn : MonoBehaviour
 
         mgr._arrPos = arrPosDefault;
         pos._teamFlag = false;
+
+         // clear killChess board
+        mgr._redKilledChess.Clear();
+        mgr._blackKilledChess.Clear();
 
         Debug.Log("StartBtn Clicked!!");
         SceneManager.LoadScene("GammingScene");

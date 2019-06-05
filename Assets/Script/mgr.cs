@@ -60,11 +60,15 @@ public class mgr : MonoBehaviour
                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
                                    0, 9, 7, 5, 3, 1, 2, 4, 6, 8};
 
+    public static List<int> _redKilledChess = new List<int>();
+    public static List<int> _blackKilledChess = new List<int>();
+
     void Start()
     {
         //Debug.Log("mgr.cs");
         //Debug.Log("==========");
         //GameObject.Instantiate(checkerboard);
+
 
 
     }
@@ -74,6 +78,8 @@ public class mgr : MonoBehaviour
     // 陣列的內容是0的時候 sprite=null 就移除棋子的圖案
     void Update()
     {
+        //Debug.Log("Play again value : " + PlayAgainPanel._playAgainFlag);
+        // display chessboard chess
         for (int i = 1; i < _arrPos.Length; i++)
         {
             GameObject gameObject = GameObject.Find(i + "");
@@ -87,6 +93,46 @@ public class mgr : MonoBehaviour
                 Sprite[] playerSprite = Resources.LoadAll<Sprite>(_res[_arrPos[i]]);
                 spr.sprite = playerSprite[0];
             }
+        }
+
+        // display red killed chess board
+        for (int i = 0; i <= _redKilledChess.Count - 1; i++)
+        {
+            GameObject gameObject = GameObject.Find((i + 116) + "");
+            SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+            if (PlayAgainPanel._playAgainFlag > 0)
+            {
+                spr.sprite = null;
+            }
+            else
+            {
+                Sprite[] playerSprite = Resources.LoadAll<Sprite>(_res[(int)_redKilledChess[i]]);
+                spr.sprite = playerSprite[0];
+            }
+        }
+
+        // display black killed chess board
+        for (int i = 0; i <= _blackKilledChess.Count - 1; i++)
+        {
+            GameObject gameObject = GameObject.Find((i + 100) + "");
+            SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+            if (PlayAgainPanel._playAgainFlag > 0)
+            {
+                spr.sprite = null;
+            }
+            else
+            {
+                Sprite[] playerSprite = Resources.LoadAll<Sprite>(_res[(int)_blackKilledChess[i]]);
+                spr.sprite = playerSprite[0];
+            }
+        }
+
+        PlayAgainPanel._playAgainFlag--;
+
+        if (PlayAgainPanel._playAgainFlag == 0)
+        {
+            _redKilledChess.Clear();
+            _blackKilledChess.Clear();
         }
     }
 

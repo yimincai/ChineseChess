@@ -22,6 +22,9 @@ public class pos : MonoBehaviour
 
     void Start()
     {
+        //mgr._redKilledChess.Clear();
+        //mgr._blackKilledChess.Clear();
+
 
     }
 
@@ -74,7 +77,17 @@ public class pos : MonoBehaviour
                     && (SelectedChessChange(ind) == true))
                 {
                     // 殺棋
+                    // assign killed Chess ind to _killedChess ArrayList
+                    if (mgr._arrPos[ind] >= 17)
+                    {
+                        mgr._redKilledChess.Add(mgr._arrPos[ind]);
+                    }
+                    else
+                    {
+                        mgr._blackKilledChess.Add(mgr._arrPos[ind]);
+                    }
                     mgr._arrPos[ind] = 0;
+
 
                     if ((ind != mgr._ind) && mgr._arrPos[mgr._ind] != 0)
                     {
@@ -329,28 +342,24 @@ public class pos : MonoBehaviour
                 if ((target > ind) && (target == rightBlockPos[2]))
                 {
                     mgr._ind = ind; // move
-                    Debug.Log("pass here");
                     return true;
                 }
                 // 往左走並擊殺
                 else if ((target < ind) && (target == leftBlockPos[2]))
                 {
                     mgr._ind = ind; // move
-                    Debug.Log("pass here");
                     return true;
                 }
                 // 往右走
                 else if ((target > ind) && (target <= rightBlockPos[1]) && mgr._arrPos[target] == 0)
                 {
                     mgr._ind = ind; // move
-                    Debug.Log("pass here");
                     return true;
                 }
                 // 往左走
                 else if ((target < ind) && (target >= leftBlockPos[1]) && mgr._arrPos[target] == 0)
                 {
                     mgr._ind = ind; // move
-                    Debug.Log("pass here" + leftBlockPos[1]);
                     return true;
                 }
                 else

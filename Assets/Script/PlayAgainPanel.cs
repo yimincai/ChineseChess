@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class PlayAgainPanel : MonoBehaviour
 {
     public Image _losserAndPlayAgainPanel;
-    public Image _redFirstAlertPanel;
+    public Image _MoveLogicAlertPanel;
+
+    public static int _playAgainFlag = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +39,36 @@ public class PlayAgainPanel : MonoBehaviour
         mgr._arrPos = arrPosDefault;
         pos._teamFlag = false;
         _losserAndPlayAgainPanel.gameObject.SetActive(false);
-        _redFirstAlertPanel.gameObject.SetActive(true);
+        _MoveLogicAlertPanel.gameObject.SetActive(true);
+
+        _playAgainFlag = mgr._redKilledChess.Count + 1;
+
+/*
+        for (int i = 0; i < 16; i++)
+        {
+            mgr._redKilledChess.Add(0);
+            mgr._blackKilledChess.Add(0);
+        }
+
+
+        // clear killChess board
+        // display red killed chess board
+        /*
+        for (int i = 0; i < mgr._redKilledChess.Count; i++)
+        {
+            GameObject gameObject = GameObject.Find((i + 116) + "");
+            SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+            spr.sprite = null;
+       }
+
+        // display black killed chess board
+        for (int i = 0; i < mgr._blackKilledChess.Count; i++)
+        {
+            GameObject gameObject = GameObject.Find((i + 100) + "");
+            SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+            spr.sprite = null;
+       }
+       */
     }
 
     public void DontPlayAgainBtnOnClick()
@@ -45,3 +76,22 @@ public class PlayAgainPanel : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
